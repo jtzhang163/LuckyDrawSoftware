@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LuckyDrawService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,12 @@ namespace LuckyDrawSoftware
     /// </summary>
     public partial class MainWindow : Window
     {
+        private IEmployeeService service = new EmployeeService();
         public MainWindow()
         {
             InitializeComponent();
+
+            Console.WriteLine(service.FindAll()[0].Name);
         }
     }
 }

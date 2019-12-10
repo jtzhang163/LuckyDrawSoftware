@@ -5,13 +5,20 @@ VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyDrawSoftware", "LuckyDrawSoftware\LuckyDrawSoftware.csproj", "{B5FF8317-0E72-441B-9F0B-09D14117E26A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyDrawDao", "LuckyDrawDao\LuckyDrawDao.csproj", "{543FCBDA-4517-4E88-A43D-143092B777DA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyDrawDomain", "LuckyDrawDomain\LuckyDrawDomain.csproj", "{56148D0C-1CD8-4A3C-8145-9AE2EAA35213}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyDrawUtil", "LuckyDrawUtil\LuckyDrawUtil.csproj", "{FD058130-775F-4FC5-8458-4B40B2231A8B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyDrawService", "LuckyDrawService\LuckyDrawService.csproj", "{CCEDF56D-84F6-4479-A13E-F9C896DF1974}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyDrawDao", "LuckyDrawDao\LuckyDrawDao.csproj", "{263AD0B4-BBA5-4097-BCD3-111F4ED3F4EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyDrawTest", "LuckyDrawTest\LuckyDrawTest.csproj", "{9C6FC792-972E-4271-82ED-8DD11D817622}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App_Data", "App_Data", "{D6B69B0B-ADB9-4874-8762-9C5E984B42D2}"
+	ProjectSection(SolutionItems) = preProject
+		db\LuckyDrawDb.db = db\LuckyDrawDb.db
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +30,6 @@ Global
 		{B5FF8317-0E72-441B-9F0B-09D14117E26A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5FF8317-0E72-441B-9F0B-09D14117E26A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5FF8317-0E72-441B-9F0B-09D14117E26A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{543FCBDA-4517-4E88-A43D-143092B777DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{543FCBDA-4517-4E88-A43D-143092B777DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{543FCBDA-4517-4E88-A43D-143092B777DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{543FCBDA-4517-4E88-A43D-143092B777DA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{56148D0C-1CD8-4A3C-8145-9AE2EAA35213}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{56148D0C-1CD8-4A3C-8145-9AE2EAA35213}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56148D0C-1CD8-4A3C-8145-9AE2EAA35213}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +42,14 @@ Global
 		{CCEDF56D-84F6-4479-A13E-F9C896DF1974}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCEDF56D-84F6-4479-A13E-F9C896DF1974}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCEDF56D-84F6-4479-A13E-F9C896DF1974}.Release|Any CPU.Build.0 = Release|Any CPU
+		{263AD0B4-BBA5-4097-BCD3-111F4ED3F4EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{263AD0B4-BBA5-4097-BCD3-111F4ED3F4EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{263AD0B4-BBA5-4097-BCD3-111F4ED3F4EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{263AD0B4-BBA5-4097-BCD3-111F4ED3F4EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C6FC792-972E-4271-82ED-8DD11D817622}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C6FC792-972E-4271-82ED-8DD11D817622}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C6FC792-972E-4271-82ED-8DD11D817622}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C6FC792-972E-4271-82ED-8DD11D817622}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
