@@ -29,7 +29,21 @@ namespace LuckyDrawSoftware
         {
             InitializeComponent();
 
-            this.Title = optionService.Get("APP_NAME");
+            ////显示任务栏
+            //this.MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
+            //this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
+
+            Context.Init();
+
+            this.Title = Context.setting.AppName;
+
+            this.MouseRightButtonDown += RightMouseDown;
+        }
+
+        public void RightMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            new SettingWindow().ShowDialog();
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

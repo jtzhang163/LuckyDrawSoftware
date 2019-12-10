@@ -1,0 +1,28 @@
+﻿<Window x:Class="LuckyDrawSoftware.SettingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:view="clr-namespace:LuckyDrawSoftware.View"
+        xmlns:local="clr-namespace:LuckyDrawSoftware" WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d" Icon="draw.ico"
+        Title="" Height="450" Width="800">
+    <Grid>
+        <TabControl x:Name="tabControl"  Foreground="Black" Background="#FFECF0F5" BorderBrush="Transparent" BorderThickness="0">
+            <TabItem Header="员工管理" Height="30"  Width="100">
+
+            </TabItem>
+
+            <TabItem Header="活动管理" Height="30"  Width="100">
+
+            </TabItem>
+
+            <TabItem Header="系统设置" Height="30"  Width="100">
+                <Grid>
+                    <view:SysSettingView/>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</Window>

@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LuckyDrawSoftware"
-        mc:Ignorable="d" Icon="draw.ico"
+        mc:Ignorable="d" Icon="draw.ico" WindowState="Maximized"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Button Content="Button" HorizontalAlignment="Left" Margin="189,178,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
