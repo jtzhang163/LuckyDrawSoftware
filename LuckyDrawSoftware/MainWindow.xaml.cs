@@ -20,12 +20,21 @@ namespace LuckyDrawSoftware
     /// </summary>
     public partial class MainWindow : Window
     {
-        private IEmployeeService service = new EmployeeService();
+        private IEmployeeService employeeService = new EmployeeService();
+
+        private IAwardService awardService = new AwardService();
+
+        private IOptionService optionService = new OptionService();
         public MainWindow()
         {
             InitializeComponent();
 
-            Console.WriteLine(service.FindAll()[0].Name);
+            this.Title = optionService.Get("APP_NAME");
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine(optionService.Get("APP_NAME1"));
         }
     }
 }

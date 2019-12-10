@@ -42,7 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EmployeeService.cs" />
+    <Compile Include="IOptionService.cs" />
+    <Compile Include="IAwardService.cs" />
+    <Compile Include="Impl\OptionService.cs" />
+    <Compile Include="Impl\AwardService.cs" />
+    <Compile Include="Impl\EmployeeService.cs" />
     <Compile Include="IEmployeeService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

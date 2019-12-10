@@ -52,8 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EmployeeDao.cs" />
-    <Compile Include="Helper.cs" />
+    <Compile Include="Impl\OptionDao.cs" />
+    <Compile Include="Impl\AwardDao.cs" />
+    <Compile Include="Impl\EmployeeDao.cs" />
+    <Compile Include="Other\Helper.cs" />
+    <Compile Include="IOptionDao.cs" />
+    <Compile Include="IAwardDao.cs" />
     <Compile Include="IEmployeeDao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -66,11 +70,7 @@
       <Name>LuckyDrawDomain</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="SQLite.Interop.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.112.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.112.0\build\net45\System.Data.SQLite.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
