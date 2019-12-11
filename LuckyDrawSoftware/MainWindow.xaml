@@ -3,11 +3,93 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:LuckyDrawSoftware"
+        xmlns:local="clr-namespace:LuckyDrawSoftware" WindowStyle="None"
         mc:Ignorable="d" Icon="draw.ico" WindowState="Maximized"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="189,178,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+    <Window.Resources>
 
+    </Window.Resources>
+
+    <Grid>
+
+        <!--背景视频-->
+        <MediaElement Name="player">
+            <MediaElement.Triggers>
+                <EventTrigger RoutedEvent="MediaElement.Loaded">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <MediaTimeline Source="D:\\Draw\\LuckyDraw\\docs\\bgvideo.mp4" Storyboard.TargetName="player" RepeatBehavior="Forever" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </MediaElement.Triggers>
+        </MediaElement>
+
+        <!--关闭按钮-->
+        <TextBlock Text="&#xf057;" FontSize="60" FontFamily="pack://application:,,,/#FontAwesome" Height="80" Width="80"
+            TextAlignment="Center" Opacity="0.5"
+            HorizontalAlignment="Right" VerticalAlignment="Top" Cursor="Hand" MouseDown="CloseMouseDown">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="White" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="False">
+                            <Setter Property="Foreground" Value="Transparent" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+
+        <Grid Margin="80">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="幸运奖第一轮（10/30） 精美毛巾礼盒"
+                       Foreground="White" FontFamily="华文新魏" FontSize="60" TextAlignment="Center" VerticalAlignment="Center"/>
+
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="前EXO成员全能偶像   鹿晗"
+                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="C位出道圈粉无数偶像   蔡徐坤"
+                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
+
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="第三季中国好声音冠军   张碧晨"
+                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="TFBOYS成员之一   易烊千玺"
+                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
+
+
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="EXO组合的中国籍成员   张艺兴"
+                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="3" Grid.Column="1" Text="实力偶像兼具的小花旦   迪丽热巴"
+                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
+
+
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="魅力非凡的舞台王子   黄子韬"
+                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="4" Grid.Column="1" Text="秀气清纯的内地男演员   贾乃亮"
+                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
+
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="阳光笑容的国民校草   李易峰"
+                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="5" Grid.Column="1" Text="从影视童星到国民闺女   关晓彤"
+                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
+
+
+        </Grid>
     </Grid>
 </Window>

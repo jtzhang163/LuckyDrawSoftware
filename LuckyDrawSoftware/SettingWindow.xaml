@@ -10,7 +10,19 @@
     <Grid>
         <TabControl x:Name="tabControl"  Foreground="Black" Background="#FFECF0F5" BorderBrush="Transparent" BorderThickness="0">
             <TabItem Header="员工管理" Height="30"  Width="100">
-
+                <Grid>
+                    <TextBlock Text="I am Aomi" Width="75" Height="20">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="Red" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
             </TabItem>
 
             <TabItem Header="活动管理" Height="30"  Width="100">

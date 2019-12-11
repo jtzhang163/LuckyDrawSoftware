@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -49,6 +50,14 @@ namespace LuckyDrawSoftware
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine(optionService.Get("APP_NAME1"));
+        }
+
+        private void CloseMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Thread.Sleep(1000);
+            
+            this.Close();
+            Application.Current.Shutdown(0);
         }
     }
 }
