@@ -11,8 +11,8 @@ namespace LuckyDrawDomain
 
         public string Name { get; set; }
 
-        public string Number { get; set; }
-
         public string Mark { get; set; }
+
+        public int Order { get; set; }
     }
 }

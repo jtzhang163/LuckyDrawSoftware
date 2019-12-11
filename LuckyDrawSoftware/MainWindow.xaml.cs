@@ -39,12 +39,13 @@ namespace LuckyDrawSoftware
             this.Title = Context.setting.AppName;
 
             this.MouseRightButtonDown += RightMouseDown;
+
+            Console.WriteLine(employeeService.FindAll().Count);
         }
 
         public void RightMouseDown(object sender, MouseButtonEventArgs e)
         {
             new SettingWindow().ShowDialog();
-
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
