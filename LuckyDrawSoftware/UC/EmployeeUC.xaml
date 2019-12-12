@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="LuckyDrawSoftware.UC.EmployeeUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LuckyDrawSoftware.UC"
+             mc:Ignorable="d" 
+             d:DesignHeight="40" d:DesignWidth="700">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="华文新魏"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="35"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="60"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Text="{Binding Mark}" HorizontalAlignment="Right"/>
+        <TextBlock Grid.Column="1" Text="{Binding Name}" HorizontalAlignment="Left"/>
+    </Grid>
+</UserControl>

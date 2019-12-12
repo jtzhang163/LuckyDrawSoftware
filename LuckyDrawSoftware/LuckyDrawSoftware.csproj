@@ -57,7 +57,11 @@
     <Compile Include="SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UC\EmployeeUC.xaml.cs">
+      <DependentUpon>EmployeeUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\BindableObject.cs" />
+    <Compile Include="ViewModel\EmployeeViewModel.cs" />
     <Compile Include="ViewModel\SettingViewModel.cs" />
     <Compile Include="View\SysSettingView.xaml.cs">
       <DependentUpon>SysSettingView.xaml</DependentUpon>
@@ -75,6 +79,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="SettingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UC\EmployeeUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

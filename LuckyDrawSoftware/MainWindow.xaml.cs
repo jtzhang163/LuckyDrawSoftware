@@ -30,6 +30,8 @@ namespace LuckyDrawSoftware
 
         private TextBlock[] tbEmployees = new TextBlock[10];
 
+        private int[] remainTime = new int[10];
+
         private Random random = new Random();
 
         private bool isOK;
@@ -83,60 +85,62 @@ namespace LuckyDrawSoftware
                 var awardIndex = 0;
                 do
                 {
-                    //wait.WaitOne();
 
                     var award = Context.awards[awardIndex];
                     this.Dispatcher.Invoke(() =>
                     {
                         this.player.Volume = 0;
-                        this.tbAward.Text = string.Format("{0}第一轮（10/{1}） {2}", award.Mark, award.Number, award.Name);
+                        this.tbAward.Text = string.Format("{0}      {1}", award.Mark, award.Name);
                     });
 
                     for (var i = 0; i < this.tbEmployees.Length; i++)
                     {
+                        remainTime[i] = i * 15 + 1;
                         this.Dispatcher.Invoke(() =>
                         {
                             this.tbEmployees[i].Text = "";
                         });
                     }
                     ready_sp.Play();
-                    Console.WriteLine("waitStart 前面");
                     runStatus = 1;
                     wait.WaitOne();
                     ready_sp.Stop();
                     going_sp.PlayLooping();
                     runStatus = 2;
-                    Console.WriteLine("waitStart 后面");
 
-                    new Thread(()=> {
-
-                        while (runStatus == 2 && isOK)
+                    new Thread(() =>
+                    {
+                        while ((runStatus == 2 || runStatus == 3) && (remainTime.ToList().Count(o => o > 0) > 0) && isOK)
                         {
-                            for (var i = 0; i < this.tbEmployees.Length; i++)
+                            for (var i = 0; i < this.tbEmployees.Length && isOK; i++)
                             {
-                                var index = this.random.Next(0, employees.Count);
-                                var employee = employees[index];
-
-                                this.Dispatcher.Invoke(() =>
+                                Thread.Sleep(5);
+                                if (remainTime[i] > 0)
                                 {
-                                    this.tbEmployees[i].Text = string.Format("{0}  {1}", employee.Mark, employee.Name);
-                                });
+                                    var index = this.random.Next(0, employees.Count);
+                                    var employee = employees[index];
+
+                                    this.Dispatcher.Invoke(() =>
+                                    {
+                                        this.tbEmployees[i].Text = string.Format("{0}  {1}", employee.Mark, employee.Name);
+                                    });
+
+                                    if (runStatus == 3)
+                                    {
+                                        remainTime[i]--;
+                                    }
+                                }
                             }
-                            Thread.Sleep(50);
                         }
 
-
                     }).Start();
-
-
-                    Console.WriteLine("waitStop 前面");
 
                     wait.WaitOne();
                     going_sp.Stop();
                     runStatus = 3;
 
                     finished_sp.Play();
-                    Console.WriteLine("waitStop 后面");
+
 
                     wait.WaitOne();
                     finished_sp.Stop();

@@ -13,7 +13,7 @@
     <Grid>
 
         <!--背景视频-->
-        <MediaElement Name="player" LoadedBehavior="Manual">
+        <MediaElement Name="player" LoadedBehavior="Manual" >
             <MediaElement.Triggers>
                 <EventTrigger RoutedEvent="MediaElement.Loaded">
                     <EventTrigger.Actions>
@@ -29,13 +29,13 @@
 
         <!--关闭按钮-->
         <TextBlock Text="&#xf057;" FontSize="60" FontFamily="pack://application:,,,/#FontAwesome" Height="80" Width="80"
-            TextAlignment="Center" Opacity="0.5"
+            TextAlignment="Center"
             HorizontalAlignment="Right" VerticalAlignment="Top" Cursor="Hand" MouseDown="CloseMouseDown">
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Foreground" Value="White" />
+                            <Setter Property="Foreground" Value="Blue" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="False">
                             <Setter Property="Foreground" Value="Transparent" />
@@ -47,12 +47,13 @@
 
         <Grid Margin="80">
             <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
                 <RowDefinition Height="2*"/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -62,31 +63,34 @@
             <TextBlock x:Name="tbAward" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="欢迎来到抽奖环节"
                        Foreground="White" FontFamily="华文新魏" FontSize="60" TextAlignment="Center" VerticalAlignment="Center"/>
 
-            <TextBlock x:Name="tbEmployee01" Grid.Row="1" Grid.Column="0"
+            <TextBlock x:Name="tbAwardTip" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="第1轮（10/30）"
+                       Foreground="White" FontFamily="华文新魏" FontSize="40" TextAlignment="Center" VerticalAlignment="Center"/>
+
+            <TextBlock x:Name="tbEmployee01" Grid.Row="2" Grid.Column="0"
                        Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock x:Name="tbEmployee02" Grid.Row="1" Grid.Column="1"
+            <TextBlock x:Name="tbEmployee02" Grid.Row="2" Grid.Column="1"
                        Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
 
-            <TextBlock x:Name="tbEmployee03" Grid.Row="2" Grid.Column="0"
+            <TextBlock x:Name="tbEmployee03" Grid.Row="3" Grid.Column="0"
                        Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock x:Name="tbEmployee04" Grid.Row="2" Grid.Column="1"
-                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
-
-
-            <TextBlock x:Name="tbEmployee05" Grid.Row="3" Grid.Column="0"
-                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock x:Name="tbEmployee06" Grid.Row="3" Grid.Column="1"
+            <TextBlock x:Name="tbEmployee04" Grid.Row="3" Grid.Column="1"
                        Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
 
 
-            <TextBlock x:Name="tbEmployee07" Grid.Row="4" Grid.Column="0"
+            <TextBlock x:Name="tbEmployee05" Grid.Row="4" Grid.Column="0"
                        Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock x:Name="tbEmployee08" Grid.Row="4" Grid.Column="1"
+            <TextBlock x:Name="tbEmployee06" Grid.Row="4" Grid.Column="1"
                        Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
 
-            <TextBlock x:Name="tbEmployee09" Grid.Row="5" Grid.Column="0"
+
+            <TextBlock x:Name="tbEmployee07" Grid.Row="5" Grid.Column="0"
                        Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock x:Name="tbEmployee10" Grid.Row="5" Grid.Column="1"
+            <TextBlock x:Name="tbEmployee08" Grid.Row="5" Grid.Column="1"
+                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
+
+            <TextBlock x:Name="tbEmployee09" Grid.Row="6" Grid.Column="0"
+                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock x:Name="tbEmployee10" Grid.Row="6" Grid.Column="1"
                        Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
 
 
