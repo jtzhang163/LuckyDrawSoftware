@@ -12,10 +12,18 @@ namespace LuckyDrawSoftware
     {
         public static void Init()
         {
-            IOptionService service = new OptionService();
-            List<Option> options = service.FindAll();
-            setting.AppName = options.FirstOrDefault(o => o.Key == "APP_NAME")?.Value;
+            employees = new EmployeeService().FindAll();
+
+            awards = new AwardService().FindAll();
+
+            setting.AppName = new OptionService().FindAll().FirstOrDefault(o => o.Key == "APP_NAME")?.Value;
         }
+
+
+        public static List<Employee> employees;
+
+        public static List<Award> awards;
+
         public static SettingViewModel setting = new SettingViewModel();
     }
 }
