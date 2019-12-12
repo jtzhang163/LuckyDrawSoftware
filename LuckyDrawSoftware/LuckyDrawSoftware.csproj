@@ -61,6 +61,7 @@
       <DependentUpon>EmployeeUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\BindableObject.cs" />
+    <Compile Include="ViewModel\AwardViewModel.cs" />
     <Compile Include="ViewModel\EmployeeViewModel.cs" />
     <Compile Include="ViewModel\SettingViewModel.cs" />
     <Compile Include="View\SysSettingView.xaml.cs">

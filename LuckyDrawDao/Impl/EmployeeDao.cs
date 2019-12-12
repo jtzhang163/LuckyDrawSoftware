@@ -16,7 +16,7 @@ namespace LuckyDrawDao
             using (IDbConnection cnn = new SQLiteConnection(Helper.ConnectionString))
             {
                 var output = cnn.Query<Employee>("select * from t_employee", new DynamicParameters());
-                return output.ToList();
+                return output.Where(o => !string.IsNullOrEmpty(o.Name)).ToList();
             }
         }
     }

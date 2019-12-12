@@ -13,7 +13,7 @@
     <Grid>
 
         <!--背景视频-->
-        <MediaElement Name="player" LoadedBehavior="Manual" >
+        <MediaElement Name="player">
             <MediaElement.Triggers>
                 <EventTrigger RoutedEvent="MediaElement.Loaded">
                     <EventTrigger.Actions>
@@ -49,11 +49,11 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="2*"/>
+                <RowDefinition Height="10*"/>
+                <!--<RowDefinition Height="2*"/>
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="2*"/>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>-->
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -63,10 +63,15 @@
             <TextBlock x:Name="tbAward" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="欢迎来到抽奖环节"
                        Foreground="White" FontFamily="华文新魏" FontSize="60" TextAlignment="Center" VerticalAlignment="Center"/>
 
-            <TextBlock x:Name="tbAwardTip" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="第1轮（10/30）"
+            <TextBlock x:Name="tbAwardTip" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text=""
                        Foreground="White" FontFamily="华文新魏" FontSize="40" TextAlignment="Center" VerticalAlignment="Center"/>
 
-            <TextBlock x:Name="tbEmployee01" Grid.Row="2" Grid.Column="0"
+            <Grid x:Name="emp_grid" Grid.Row="2" Grid.ColumnSpan="2">
+                
+            </Grid>
+            
+            
+            <!--<TextBlock x:Name="tbEmployee01" Grid.Row="2" Grid.Column="0"
                        Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
             <TextBlock x:Name="tbEmployee02" Grid.Row="2" Grid.Column="1"
                        Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
@@ -91,7 +96,7 @@
             <TextBlock x:Name="tbEmployee09" Grid.Row="6" Grid.Column="0"
                        Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
             <TextBlock x:Name="tbEmployee10" Grid.Row="6" Grid.Column="1"
-                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
+                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>-->
 
 
         </Grid>

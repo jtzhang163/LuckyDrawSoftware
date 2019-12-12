@@ -1,4 +1,6 @@
-﻿using LuckyDrawService;
+﻿using LuckyDrawDomain;
+using LuckyDrawService;
+using LuckyDrawSoftware.UC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,141 +24,233 @@ namespace LuckyDrawSoftware
     /// </summary>
     public partial class MainWindow : Window
     {
-        //private IEmployeeService employeeService = new EmployeeService();
-
-        //private IAwardService awardService = new AwardService();
-
-        //private IOptionService optionService = new OptionService();
-
-        private TextBlock[] tbEmployees = new TextBlock[10];
-
-        private int[] remainTime = new int[10];
-
-        private Random random = new Random();
-
-        private bool isOK;
-
-        private void Init()
-        {
-            Context.Init();
-
-            this.Title = Context.setting.AppName;
-
-            this.MouseRightButtonDown += RightMouseDown;
-            this.KeyUp += KeyEvent;
-            this.MouseDoubleClick += MouseDbClick;
-
-            for (var i = 0; i < this.tbEmployees.Length; i++)
-            {
-                this.tbEmployees[i] = (TextBlock)this.FindName("tbEmployee" + (i + 1).ToString("D2"));
-            }
-
-            this.player.Play();
-
-            ////显示任务栏
-            //this.MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
-            //this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
-        }
-
         public MainWindow()
         {
             InitializeComponent();
 
             Init();
 
-            this.isOK = true;
+        }
+
+        private List<EmployeeUC> EmpUCs = new List<EmployeeUC>();
+
+        private List<int> RemainTimes = new List<int>();
+
+        private Random random = new Random();
+
+        private bool isRunning;
+
+        private void Init()
+        {
+            //数据初始化
+            Context.Init();
+
+            //绑定事件
+            this.MouseRightButtonDown += RightMouseDown;
+            this.KeyUp += KeyEvent;
+            this.MouseDoubleClick += MouseDbClick;
+
+            this.isRunning = true;
+        }
+
+        /// <summary>
+        /// 设置 Grid 
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="cols"></param>
+        /// <param name="count"></param>
+        /// <param name="isEmp"></param>
+        private void SetGrid(int rows, int cols, int count, bool isEmp)
+        {
+            ResetGrid();
+            for (int i = 0; i < rows; i++)
+            {
+                this.emp_grid.RowDefinitions.Add(new RowDefinition());
+            }
+
+            for (int i = 0; i < cols; i++)
+            {
+                this.emp_grid.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                var empUC = isEmp ? new EmployeeUC() : new EmployeeUC(2, 3);
+                this.EmpUCs.Add(empUC);
+                this.RemainTimes.Add(0);
+            }
+
+            int index = 0;
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    if (index < this.EmpUCs.Count)
+                    {
+                        this.emp_grid.Children.Add(this.EmpUCs[index]);
+                        Grid.SetRow(this.EmpUCs[index], i);
+                        Grid.SetColumn(this.EmpUCs[index], j);
+                        index++;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 显示开场白
+        /// </summary>
+        private void ShowOpening()
+        {
+            this.tbAwardTip.Text = "奖品如下";
+            SetGrid(Context.awards.Count, 1, Context.awards.Count, false);
+            for (int i = 0; i < this.EmpUCs.Count; i++)
+            {
+                var award = Context.awards[i];
+                this.EmpUCs[i].Update(new Employee()
+                {
+                    Mark = award.Mark,
+                    Name = string.Format("{0}({1}个)", award.Name, award.Number),
+                });
+            }
         }
 
 
-        private bool isRunning = false;
+        /// <summary>
+        /// 显示奖项标题
+        /// </summary>
+        private void ShowAwardTitle()
+        {
+
+        }
+
+        private void ResetGrid()
+        {
+            this.emp_grid.Children.Clear();
+            this.emp_grid.RowDefinitions.Clear();
+            this.emp_grid.ColumnDefinitions.Clear();
+            this.EmpUCs.Clear();
+            this.RemainTimes.Clear();
+        }
 
         EventWaitHandle wait = new AutoResetEvent(false);
 
-        int runStatus = 0;
+        int runStatus = -1;
 
         Thread thread;
 
         private void Run()
         {
-            var employees = Context.employees;
-            isRunning = true;
             thread = new Thread(() =>
             {
+                //开场白
+                this.Dispatcher.Invoke(() => { ShowOpening(); });
+
+                runStatus = 0;
+                wait.WaitOne();
+
                 var awardIndex = 0;
+                var employees = Context.employees;
                 do
                 {
-
                     var award = Context.awards[awardIndex];
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        this.player.Volume = 0;
-                        this.tbAward.Text = string.Format("{0}      {1}", award.Mark, award.Name);
-                    });
 
-                    for (var i = 0; i < this.tbEmployees.Length; i++)
+                    while (award.CurrentCycle * 10 < award.Number)
                     {
-                        remainTime[i] = i * 15 + 1;
+
+                        award.CurrentCycle++;
+                        var gridCount = 10;
+                        var tmpGridCount = award.Number - (award.CurrentCycle - 1) * 10;
+                        if (tmpGridCount < 10)
+                        {
+                            gridCount = tmpGridCount;
+                        }
+
                         this.Dispatcher.Invoke(() =>
                         {
-                            this.tbEmployees[i].Text = "";
-                        });
-                    }
-                    ready_sp.Play();
-                    runStatus = 1;
-                    wait.WaitOne();
-                    ready_sp.Stop();
-                    going_sp.PlayLooping();
-                    runStatus = 2;
-
-                    new Thread(() =>
-                    {
-                        while ((runStatus == 2 || runStatus == 3) && (remainTime.ToList().Count(o => o > 0) > 0) && isOK)
-                        {
-                            for (var i = 0; i < this.tbEmployees.Length && isOK; i++)
+                            this.player.Volume = 0;
+                            this.tbAward.Text = string.Format("{0}      {1}", award.Mark, award.Name);
+                            if (award.Number <= 10)
                             {
-                                Thread.Sleep(5);
-                                if (remainTime[i] > 0)
+                                this.tbAwardTip.Text = string.Format("({0}/{0})", award.Number);
+                            }
+                            else
+                            {
+                                this.tbAwardTip.Text = string.Format("第{0}轮({1}~{2}/{3})", award.CurrentCycle, (award.CurrentCycle - 1) * 10 + 1, (award.CurrentCycle - 1) * 10 + gridCount, award.Number);
+                            }
+
+                            if (gridCount > 3)
+                            {
+                                SetGrid((int)Math.Ceiling(gridCount / 2.0), 2, gridCount, true);
+                            }
+                            else
+                            {
+                                SetGrid(gridCount, 1, gridCount, true);
+                            }
+                        });
+
+
+                        for (var i = 0; i < gridCount; i++)
+                        {
+                            RemainTimes[i] = i * 10 + 1;
+                            this.EmpUCs[i].Update(new Employee());
+                        }
+                        ready_sp.Play();
+
+
+                        runStatus = 1;
+                        wait.WaitOne();
+
+                        ready_sp.Stop();
+                        going_sp.PlayLooping();
+
+                        new Thread(() =>
+                        {
+                            while ((runStatus == 2 || runStatus == 3) && (RemainTimes.Count(o => o > 0) > 0) && isRunning)
+                            {
+                                for (var i = 0; i < this.EmpUCs.Count && isRunning; i++)
                                 {
-                                    var index = this.random.Next(0, employees.Count);
-                                    var employee = employees[index];
-
-                                    this.Dispatcher.Invoke(() =>
+                                    Thread.Sleep(5);
+                                    if (RemainTimes[i] > 0)
                                     {
-                                        this.tbEmployees[i].Text = string.Format("{0}  {1}", employee.Mark, employee.Name);
-                                    });
+                                        var index = this.random.Next(0, employees.Count);
+                                        var employee = employees[index];
 
-                                    if (runStatus == 3)
-                                    {
-                                        remainTime[i]--;
+                                        this.EmpUCs[i].Update(employee);
+
+                                        if (runStatus == 3)
+                                        {
+                                            RemainTimes[i]--;
+                                        }
                                     }
                                 }
                             }
-                        }
+                        }).Start();
 
-                    }).Start();
-
-                    wait.WaitOne();
-                    going_sp.Stop();
-                    runStatus = 3;
-
-                    finished_sp.Play();
+                        runStatus = 2;
+                        wait.WaitOne();
 
 
-                    wait.WaitOne();
-                    finished_sp.Stop();
-                    runStatus = 4;
+                        going_sp.Stop();
+                        finished_sp.Play();
+                        runStatus = 3;
+                        wait.WaitOne();
+
+                        finished_sp.Stop();
+                        //runStatus = 4;
+
+
+                    }
+
 
                     awardIndex++;
                 }
                 while (awardIndex < Context.awards.Count);
 
-                this.Dispatcher.Invoke(()=> {
+                this.Dispatcher.Invoke(() =>
+                {
                     this.player.Volume = 1;
                 });
-
-
-                isRunning = false;
-
             });
 
             thread.Start();
@@ -170,7 +264,7 @@ namespace LuckyDrawSoftware
 
         public void KeyEvent(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.Space)
+            if (e.Key == Key.Space)
             {
                 Console.WriteLine("空格");
                 Start();
@@ -184,7 +278,7 @@ namespace LuckyDrawSoftware
         {
             if (canStart)
             {
-                if (isRunning == false)
+                if (runStatus == -1)
                 {
                     Run();
                 }
@@ -214,8 +308,7 @@ namespace LuckyDrawSoftware
 
         private void CloseMouseDown(object sender, MouseButtonEventArgs e)
         {
-            this.isOK = false;
-            this.player.Stop();
+            this.isRunning = false;
 
             if (thread != null)
             {
@@ -223,7 +316,7 @@ namespace LuckyDrawSoftware
             }
 
             Thread.Sleep(1000);
-            
+
             this.Close();
             Application.Current.Shutdown(0);
         }

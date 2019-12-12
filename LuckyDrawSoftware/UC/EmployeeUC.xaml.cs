@@ -22,11 +22,19 @@ namespace LuckyDrawSoftware.UC
     /// </summary>
     public partial class EmployeeUC : System.Windows.Controls.UserControl
     {
-        public EmployeeViewModel employeeVM;
-        public EmployeeUC()
+        public EmployeeViewModel employeeVM = new EmployeeViewModel();
+
+        public EmployeeUC() : this(2, 1)
+        {
+        }
+
+        public EmployeeUC(int width1, int width2)
         {
             InitializeComponent();
             this.DataContext = employeeVM;
+
+            this.grid.ColumnDefinitions[0].Width = new GridLength(width1, GridUnitType.Star); //(GridLength)(new GridLengthConverter()).ConvertFromString(width1 + "*");
+            this.grid.ColumnDefinitions[1].Width = new GridLength(width2, GridUnitType.Star);// (GridLength)(new GridLengthConverter()).ConvertFromString(width2 + "*");
         }
 
         public void Update(Employee employee)

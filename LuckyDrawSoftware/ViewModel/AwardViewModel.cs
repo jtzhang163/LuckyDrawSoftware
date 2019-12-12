@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LuckyDrawSoftware.ViewModel
 {
-    public class EmployeeViewModel : BindableObject
+    public class AwardViewModel : BindableObject
     {
 
         private int id;
@@ -40,13 +40,25 @@ namespace LuckyDrawSoftware.ViewModel
             }
         }
 
-        public EmployeeViewModel(string name, string mark)
+        private int number;
+        public int Number
+        {
+            get { return number; }
+            set
+            {
+                this.SetProperty(ref number, value);
+            }
+        }
+
+        public int CurrentCycle { get; set; }
+
+        public AwardViewModel(string name, string mark)
         {
             this.name = name;
             this.mark = mark;
         }
 
-        public EmployeeViewModel() : this("", "")
+        public AwardViewModel() : this("", "")
         {
         }
     }

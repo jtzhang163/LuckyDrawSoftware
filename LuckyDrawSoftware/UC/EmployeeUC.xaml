@@ -13,12 +13,12 @@
             <Setter Property="FontSize" Value="35"/>
         </Style>
     </UserControl.Resources>
-    <Grid>
+    <Grid x:Name="grid">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="60"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Column="0" Text="{Binding Mark}" HorizontalAlignment="Right"/>
-        <TextBlock Grid.Column="1" Text="{Binding Name}" HorizontalAlignment="Left"/>
+        <TextBlock Grid.Column="0" Text="{Binding Mark}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <TextBlock Grid.Column="1" Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30,0,0,0"/>
     </Grid>
 </UserControl>
