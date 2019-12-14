@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
@@ -9,31 +10,31 @@ using LuckyDrawDomain;
 
 namespace LuckyDrawDao
 {
-    public class OptionDao : IOptionDao
+    public class AwardEmpDao : IAwardEmpDao
     {
-        public List<Option> FindAll()
+        public List<AwardEmp> FindAll()
         {
             using (IDbConnection cnn = new SQLiteConnection(Helper.ConnectionString))
             {
-                var output = cnn.Query<Option>("select * from t_option", new DynamicParameters());
+                var output = cnn.Query<AwardEmp>("select id, award_id AwardId, emp_id EmpId from t_award_emp", new DynamicParameters());
                 return output.ToList();
             }
         }
 
-        public Option Get(string key)
+        public void Add(AwardEmp awardEmp)
         {
             using (IDbConnection cnn = new SQLiteConnection(Helper.ConnectionString))
             {
-                var output = cnn.Query<Option>("select * from t_option where key = @Key", new { Key = key });
-                return output.ToList().FirstOrDefault();
+                cnn.Execute("insert into t_award_emp (id, award_id , emp_id) values (null, @AwardId, @EmpId)", awardEmp);
             }
         }
 
-        public void Set(string key, string value)
+        public void Clear()
         {
             using (IDbConnection cnn = new SQLiteConnection(Helper.ConnectionString))
             {
-                cnn.Execute("update t_option set value = @Value where key = @Key", new { Value = value, Key = key });
+                cnn.Execute("DELETE FROM t_award_emp", new DynamicParameters());
+                cnn.Execute("UPDATE sqlite_sequence SET seq = 0 WHERE name = 't_award_emp'", new DynamicParameters());
             }
         }
     }

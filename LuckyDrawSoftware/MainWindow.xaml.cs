@@ -1,6 +1,8 @@
 ﻿using LuckyDrawDomain;
 using LuckyDrawService;
+using LuckyDrawSoftware.json;
 using LuckyDrawSoftware.UC;
+using LuckyDrawUtil;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +39,10 @@ namespace LuckyDrawSoftware
         private List<int> RemainTimes = new List<int>();
 
         private Random random = new Random();
+
+        private IAwardEmpService awardEmpService = new AwardEmpService();
+        private IAwardService awardService = new AwardService();
+        private IEmployeeService employeeService = new EmployeeService();
 
         private bool isRunning;
 
@@ -117,6 +123,69 @@ namespace LuckyDrawSoftware
 
 
         /// <summary>
+        /// 设置 Grid 
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="cols"></param>
+        /// <param name="count"></param>
+        /// <param name="isEmp"></param>
+        private void ShowFinalList()
+        {
+            var awards = awardService.FindAll();
+            var emps = employeeService.FindAll();
+            var awardEmps = awardEmpService.FindAll();
+
+            this.Dispatcher.Invoke(()=> {
+
+                this.player.Volume = 1;
+                this.tbAward.Text = "抽奖结束 名单如下";
+                this.tbAwardTip.Text = string.Format("共{0}人", awardEmps.Count);
+                ResetGrid();
+
+                this.emp_grid.RowDefinitions.Add(new RowDefinition());
+                this.emp_grid.ColumnDefinitions.Add(new ColumnDefinition());
+
+                List<AwardJson> awardJsons = new List<AwardJson>();
+
+                for (var i = 0; i < awards.Count; i++)
+                {
+                    var award = awards[i];
+                    var awardJson = new AwardJson();
+                    
+                    var currentAwardEmps = awardEmps.Where(o => o.AwardId == award.Id).ToList();
+                    awardJson.name = award.Name;
+                    awardJson.mark = award.Mark;
+                    awardJson.number = currentAwardEmps.Count;
+
+
+                    List<EmpJson> empJsons = new List<EmpJson>();
+                    for (var j = 0; j < currentAwardEmps.Count; j++)
+                    {
+                        var awardEmp = currentAwardEmps[j];
+                        var emp = emps.FirstOrDefault(o => o.Id == awardEmp.EmpId);
+                        if (emp != null)
+                        {
+                            var empJson = new EmpJson();
+                            empJson.name = emp.Name;
+                            empJson.mark = emp.Mark;
+                            empJsons.Add(empJson);
+                        }
+                    }
+
+                    awardJson.emps = empJsons;
+                    awardJsons.Add(awardJson);
+                }
+
+                var json = JsonHelper.Serialize<AwardJson>(awardJsons);
+
+                json = json.Replace('"','\'');
+
+                WriteHtmlUtil.Write(json);
+            });
+        }
+
+
+        /// <summary>
         /// 显示奖项标题
         /// </summary>
         private void ShowAwardTitle()
@@ -149,6 +218,7 @@ namespace LuckyDrawSoftware
                 runStatus = 0;
                 wait.WaitOne();
 
+                awardEmpService.Clear();
                 var awardIndex = 0;
                 var employees = Context.employees;
                 do
@@ -204,9 +274,10 @@ namespace LuckyDrawSoftware
                         ready_sp.Stop();
                         going_sp.PlayLooping();
 
+                        isFrushing = true;
                         new Thread(() =>
                         {
-                            while ((runStatus == 2 || runStatus == 3) && (RemainTimes.Count(o => o > 0) > 0) && isRunning)
+                            while ((runStatus == 2 || runStatus == 3) && RemainTimes.Count(o => o > 0) > 0 && isRunning)
                             {
                                 for (var i = 0; i < this.EmpUCs.Count && isRunning; i++)
                                 {
@@ -223,8 +294,19 @@ namespace LuckyDrawSoftware
                                             RemainTimes[i]--;
                                         }
                                     }
+
+                                    if (RemainTimes[i] <= 0)
+                                    {
+                                        var emp = employees.FirstOrDefault(o => o.Id == this.EmpUCs[i].employeeVM.Id);
+                                        if (emp != null)
+                                        {
+                                            awardEmpService.Add(new AwardEmp(0, award.Id, emp.Id));
+                                            employees.Remove(emp);
+                                        }
+                                    }
                                 }
                             }
+                            isFrushing = false;
                         }).Start();
 
                         runStatus = 2;
@@ -239,18 +321,14 @@ namespace LuckyDrawSoftware
                         finished_sp.Stop();
                         //runStatus = 4;
 
-
                     }
-
 
                     awardIndex++;
                 }
                 while (awardIndex < Context.awards.Count);
 
-                this.Dispatcher.Invoke(() =>
-                {
-                    this.player.Volume = 1;
-                });
+                ShowFinalList();
+
             });
 
             thread.Start();
@@ -273,27 +351,37 @@ namespace LuckyDrawSoftware
 
 
         private bool canStart = true;
+        private bool isFrushing = false;
 
         private void Start()
         {
-            if (canStart)
+            if (!canStart)
             {
-                if (runStatus == -1)
-                {
-                    Run();
-                }
-                else
+                return;
+            }
+
+            if (runStatus == -1)
+            {
+                Run();
+            }
+            else if (runStatus == 3)
+            {
+                if (!isFrushing)
                 {
                     wait.Set();
                 }
-                canStart = false;
-
-                new Thread(() =>
-                {
-                    Thread.Sleep(3000);
-                    canStart = true;
-                }).Start();
             }
+            else
+            {
+                wait.Set();
+            }
+            canStart = false;
+
+            new Thread(() =>
+            {
+                Thread.Sleep(3000);
+                canStart = true;
+            }).Start();
         }
 
         private void MouseDbClick(object sender, MouseButtonEventArgs e)
@@ -303,7 +391,8 @@ namespace LuckyDrawSoftware
 
         public void RightMouseDown(object sender, MouseButtonEventArgs e)
         {
-            new SettingWindow().ShowDialog();
+            //new SettingWindow().ShowDialog();
+            System.Diagnostics.Process.Start(AppDomain.CurrentDomain.BaseDirectory + "html\\获奖名单.html");
         }
 
         private void CloseMouseDown(object sender, MouseButtonEventArgs e)

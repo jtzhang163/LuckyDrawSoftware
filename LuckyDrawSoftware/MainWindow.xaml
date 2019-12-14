@@ -7,7 +7,13 @@
         mc:Ignorable="d" Icon="draw.ico" WindowState="Maximized"
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
-
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="华文新魏"/>
+            <Setter Property="FontSize" Value="40"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -45,7 +51,7 @@
             </TextBlock.Style>
         </TextBlock>
 
-        <Grid Margin="80">
+        <Grid x:Name="base_gird" Margin="80">
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="2*"/>
@@ -66,38 +72,19 @@
             <TextBlock x:Name="tbAwardTip" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text=""
                        Foreground="White" FontFamily="华文新魏" FontSize="40" TextAlignment="Center" VerticalAlignment="Center"/>
 
+            <!--<Border x:Name="border" Visibility="Hidden" Margin="200,20,200,20" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                <TextBox x:Name="tbFinalList" TextWrapping="Wrap" Text="eeeeeeeeeeeee">
+
+                </TextBox>
+            </Border>-->
+
             <Grid x:Name="emp_grid" Grid.Row="2" Grid.ColumnSpan="2">
-                
+                <!--<Border x:Name="border" Padding="200,20,200,20" ScrollViewer.VerticalScrollBarVisibility="Visible" BorderBrush="White" BorderThickness="3">
+                    <TextBox x:Name="tbFinalList" TextWrapping="Wrap" Text="eeeeeeeeeeeee" BorderThickness="0">
+
+                    </TextBox>
+                </Border>-->
             </Grid>
-            
-            
-            <!--<TextBlock x:Name="tbEmployee01" Grid.Row="2" Grid.Column="0"
-                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock x:Name="tbEmployee02" Grid.Row="2" Grid.Column="1"
-                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
-
-            <TextBlock x:Name="tbEmployee03" Grid.Row="3" Grid.Column="0"
-                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock x:Name="tbEmployee04" Grid.Row="3" Grid.Column="1"
-                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
-
-
-            <TextBlock x:Name="tbEmployee05" Grid.Row="4" Grid.Column="0"
-                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock x:Name="tbEmployee06" Grid.Row="4" Grid.Column="1"
-                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
-
-
-            <TextBlock x:Name="tbEmployee07" Grid.Row="5" Grid.Column="0"
-                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock x:Name="tbEmployee08" Grid.Row="5" Grid.Column="1"
-                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
-
-            <TextBlock x:Name="tbEmployee09" Grid.Row="6" Grid.Column="0"
-                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock x:Name="tbEmployee10" Grid.Row="6" Grid.Column="1"
-                       Foreground="White" FontFamily="华文新魏" FontSize="35" TextAlignment="Center" VerticalAlignment="Center"/>-->
-
 
         </Grid>
     </Grid>

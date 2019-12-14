@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAwardEmpService.cs" />
+    <Compile Include="Impl\AwardEmpService.cs" />
     <Compile Include="IOptionService.cs" />
     <Compile Include="IAwardService.cs" />
     <Compile Include="Impl\OptionService.cs" />

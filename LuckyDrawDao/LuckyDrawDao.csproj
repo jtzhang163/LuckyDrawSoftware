@@ -52,6 +52,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAwardEmpDao.cs" />
+    <Compile Include="Impl\AwardEmpDao.cs" />
     <Compile Include="Impl\OptionDao.cs" />
     <Compile Include="Impl\AwardDao.cs" />
     <Compile Include="Impl\EmployeeDao.cs" />
