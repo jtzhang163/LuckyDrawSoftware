@@ -19,7 +19,9 @@
     <Grid>
 
         <!--背景视频-->
-        <MediaElement Name="player">
+        <MediaElement Name="player" MediaEnded="player_MediaEnded"  Source="./video/bgvideo.mp4" LoadedBehavior="Manual"/>
+        
+        <!--<MediaElement Name="player">
             <MediaElement.Triggers>
                 <EventTrigger RoutedEvent="MediaElement.Loaded">
                     <EventTrigger.Actions>
@@ -31,7 +33,7 @@
                     </EventTrigger.Actions>
                 </EventTrigger>
             </MediaElement.Triggers>
-        </MediaElement>
+        </MediaElement>-->
 
         <!--关闭按钮-->
         <TextBlock Text="&#xf057;" FontSize="60" FontFamily="pack://application:,,,/#FontAwesome" Height="80" Width="80"

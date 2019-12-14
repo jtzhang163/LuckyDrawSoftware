@@ -27,14 +27,11 @@ namespace LuckyDrawSoftware
     /// </summary>
     public partial class MainWindow : Window
     {
+        //private Logger logger = Logger.Default;
+
         public MainWindow()
         {
             InitializeComponent();
-
-            //添加在在主窗体构造函数内
-            //this.MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
-            //this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
-
             Init();
         }
 
@@ -60,6 +57,7 @@ namespace LuckyDrawSoftware
             this.MouseDoubleClick += MouseDbClick;
 
             this.isRunning = true;
+            this.player.Play();
         }
 
         /// <summary>
@@ -109,10 +107,8 @@ namespace LuckyDrawSoftware
         /// <summary>
         /// 显示开场白
         /// </summary>
-        private void ShowOpening()
+        private void ShowOpening(List<Award> awards)
         {
-            var awards = awardService.FindAll();
-
             this.tbAwardTip.Text = "奖品如下";
             SetGrid(awards.Count, 1, awards.Count, false);
             for (int i = 0; i < this.EmpUCs.Count; i++)
@@ -139,8 +135,6 @@ namespace LuckyDrawSoftware
             var awards = awardService.FindAll();
             var emps = employeeService.FindAll();
             var awardEmps = awardEmpService.FindAll();
-
-
 
             this.Dispatcher.Invoke(()=> {
 
@@ -217,21 +211,19 @@ namespace LuckyDrawSoftware
             thread = new Thread(() =>
             {
                 //开场白
-                this.Dispatcher.Invoke(() => { ShowOpening(); });
+                this.Dispatcher.Invoke(() => { ShowOpening(awards); });
 
                 runStatus = 0;
                 wait.WaitOne();
 
                 awardEmpService.Clear();
                 var awardIndex = 0;
-                var employees = employeeService.FindAll();
+
                 do
                 {
                     var award = new AwardViewModel(awards[awardIndex]);
-
                     while (award.CurrentCycle * showCount < award.Number)
                     {
-
                         award.CurrentCycle++;
                         var gridCount = showCount;
                         var tmpGridCount = award.Number - (award.CurrentCycle - 1) * showCount;
@@ -277,22 +269,22 @@ namespace LuckyDrawSoftware
 
                         runStatus = 1;
                         wait.WaitOne();
+                        runStatus = 2;
 
                         ready_sp.Stop();
                         going_sp.PlayLooping();
 
                         isFrushing = true;
-                        new Thread(() =>
+                        var t = new Thread(() =>
                         {
                             while ((runStatus == 2 || runStatus == 3) && RemainTimes.Count(o => o > 0) > 0 && isRunning)
                             {
                                 for (var i = 0; i < this.EmpUCs.Count && isRunning; i++)
                                 {
-                                    Thread.Sleep(5);
                                     if (RemainTimes[i] > 0)
                                     {
-                                        var index = this.random.Next(0, employees.Count);
-                                        var employee = employees[index];
+                                        var index = this.random.Next(0, emps.Count);
+                                        var employee = emps[index];
 
                                         this.EmpUCs[i].Update(employee);
 
@@ -304,19 +296,22 @@ namespace LuckyDrawSoftware
 
                                     if (RemainTimes[i] <= 0)
                                     {
-                                        var emp = employees.FirstOrDefault(o => o.Id == this.EmpUCs[i].employeeVM.Id);
+                                        var emp = emps.FirstOrDefault(o => o.Id == this.EmpUCs[i].employeeVM.Id);
                                         if (emp != null)
                                         {
                                             awardEmpService.Add(new AwardEmp(0, award.Id, emp.Id));
-                                            employees.Remove(emp);
+                                            emps.Remove(emp);
                                         }
                                     }
                                 }
+                                Thread.Sleep(30);
                             }
                             isFrushing = false;
-                        }).Start();
+                        });
 
-                        runStatus = 2;
+                        t.Priority = ThreadPriority.Highest;
+                        t.Start();
+
                         wait.WaitOne();
 
 
@@ -337,7 +332,7 @@ namespace LuckyDrawSoftware
                 ShowFinalList();
                 runStatus = 5;
             });
-
+            thread.Priority = ThreadPriority.Highest;
             thread.Start();
         }
 
@@ -413,6 +408,13 @@ namespace LuckyDrawSoftware
 
             this.Close();
             Application.Current.Shutdown(0);
+        }
+
+        private void player_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            //设置一下视频进度，确保从头开始播放
+            this.player.Position = TimeSpan.Zero;
+            this.player.Play();
         }
     }
 }

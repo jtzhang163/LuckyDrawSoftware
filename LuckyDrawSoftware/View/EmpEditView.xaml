@@ -13,12 +13,14 @@
             <Setter Property="FontWeight" Value="Normal"/>
             <Setter Property="AcceptsReturn" Value="True"/>
             <Setter Property="Width" Value="500"/>
+            <Setter Property="Foreground" Value="Red"/>
         </Style>
 
         <Style TargetType="TextBlock">
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
         </Style>
 
     </UserControl.Resources>
@@ -32,7 +34,7 @@
             <RowDefinition />
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="人员名单：(编辑时从EXCEL复制的数据粘贴到下面文本框)"/>
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="人员名单："/>
 
         <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
                      HorizontalAlignment="Left" >

@@ -11,30 +11,60 @@
         <Style TargetType="TabItem">
             <Style.Triggers>
                 <Trigger Property="TabItem.IsSelected" Value="True">
-                    <!--<Setter Property="TabItem.Background" Value="Green"/>-->
+                    <Setter Property="TabItem.Background" Value="Green"/>
                     <Setter Property="TabItem.FontWeight" Value="Bold"/>
-                    <!--<Setter Property="TabItem.Foreground" Value="Red"/>-->
+                    <Setter Property="TabItem.Foreground" Value="Red"/>
                 </Trigger>
                 <Trigger Property="TabItem.IsSelected" Value="False">
-                    <!--<Setter Property="TabItem.Background" Value="Red"/>-->
+                    <Setter Property="TabItem.Background" Value="Red"/>
                     <Setter Property="TabItem.FontWeight" Value="Normal"/>
-                    <!--<Setter Property="TabItem.Foreground" Value="Red"/>-->
+                    <Setter Property="TabItem.Foreground" Value="White"/>
                 </Trigger>
-                <!--<Trigger Property="TabItem.IsMouseOver" Value="True">
-                    <Setter Property="TabItem.Background" Value="Gray"/>
+                <Trigger Property="TabItem.IsMouseOver" Value="True">
+                    <Setter Property="TabItem.Background" Value="Green"/>
                 </Trigger>
                 <Trigger Property="TabItem.IsFocused" Value="True">
-                    <Setter Property="TabItem.Background" Value="Gray"/>
-                </Trigger>-->
+                    <Setter Property="TabItem.Background" Value="Green"/>
+                </Trigger>
             </Style.Triggers>
+        </Style>
+        <!--圆角button-->
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border BorderBrush="{TemplateBinding Control.BorderBrush}" BorderThickness="0" CornerRadius="5" Name="PART_Background">
+                            <Border.Background>
+                                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                    <GradientStop Color="Red" Offset="0.0" />
+                                    <GradientStop Color="Red" Offset="0.0" />
+                                    <GradientStop Color="Red" Offset="0.0" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <ContentPresenter Content="{TemplateBinding ContentControl.Content}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Width" Value="60"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="0,0,20,0"/>
         </Style>
     </Window.Resources>
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="./img/bgimg.png" Stretch="UniformToFill"/>
+        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="150"/>
         </Grid.ColumnDefinitions>
-        <TabControl x:Name="tabControl" BorderThickness="0"  SelectionChanged="tabControl_SelectionChanged">
+        <TabControl x:Name="tabControl" BorderThickness="0"  SelectionChanged="tabControl_SelectionChanged" Background="Transparent">
+            
             <TabItem Header="系统设置" Height="30"  Width="100">
             </TabItem>
 
@@ -45,7 +75,7 @@
             </TabItem>
         </TabControl>
 
-        <Button x:Name="btnCloseAndOpenMainWindow" Grid.Column="1" Width="120" Height="40"
+        <Button x:Name="btnCloseAndOpenMainWindow" Grid.Column="1" Width="120" Height="40" Background="Blue"
                 Content="设置完成，开始抽奖" Click="BtnCloseAndOpenMainWindow_Click"/>
     </Grid>
 </Window>
