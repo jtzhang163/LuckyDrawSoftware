@@ -14,5 +14,20 @@ namespace LuckyDrawService
         {
             return dao.FindAll();
         }
+
+        public void Add(Employee emp)
+        {
+            dao.Add(emp);
+        }
+
+        public void Add(List<Employee> emps)
+        {
+            emps.ForEach(o => Add(o));
+        }
+
+        public void Clear()
+        {
+            dao.Clear();
+        }
     }
 }

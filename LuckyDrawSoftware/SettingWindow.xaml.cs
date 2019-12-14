@@ -29,6 +29,8 @@ namespace LuckyDrawSoftware
         public SettingWindow()
         {
             InitializeComponent();
+            //数据初始化
+            Context.Init();
         }
 
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -39,7 +41,22 @@ namespace LuckyDrawSoftware
             {
                 g.Children.Add(new SysSettingView());
             }
+            else if (selectedTab.Header.ToString() == "人员管理")
+            {
+                g.Children.Add(new EmpEditView());
+            }
+            else if (selectedTab.Header.ToString() == "奖品管理")
+            {
+                g.Children.Add(new AwardEditView());
+            }
             selectedTab.Content = g;
+        }
+
+        private void BtnCloseAndOpenMainWindow_Click(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
         }
     }
 }

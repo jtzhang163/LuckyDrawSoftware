@@ -28,5 +28,13 @@ namespace LuckyDrawDao
                 cnn.Execute("UPDATE sqlite_sequence SET seq = 0 WHERE name = 't_employee'", new DynamicParameters());
             }
         }
+
+        public void Add(Employee emp)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(Helper.ConnectionString))
+            {
+                cnn.Execute("insert into t_employee (id, name, mark, 'order') values (null, @Name, @Mark, @Order)", emp);
+            }
+        }
     }
 }

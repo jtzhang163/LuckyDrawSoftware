@@ -66,6 +66,12 @@
     <Compile Include="ViewModel\AwardViewModel.cs" />
     <Compile Include="ViewModel\EmployeeViewModel.cs" />
     <Compile Include="ViewModel\SettingViewModel.cs" />
+    <Compile Include="View\EmpEditView.xaml.cs">
+      <DependentUpon>EmpEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AwardEditView.xaml.cs">
+      <DependentUpon>AwardEditView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SysSettingView.xaml.cs">
       <DependentUpon>SysSettingView.xaml</DependentUpon>
     </Compile>
@@ -88,6 +94,14 @@
     <Page Include="UC\EmployeeUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EmpEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\AwardEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\SysSettingView.xaml">
       <SubType>Designer</SubType>
@@ -148,6 +162,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="html\js\npm.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="人员和奖品名单.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="使用说明.docx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="img\bgimg.png" />

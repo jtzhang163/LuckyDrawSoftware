@@ -10,5 +10,11 @@ namespace LuckyDrawService
     public interface IEmployeeService
     {
         List<Employee> FindAll();
+
+        void Add(Employee emp);
+
+        void Add(List<Employee> emps);
+
+        void Clear();
     }
 }

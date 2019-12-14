@@ -14,5 +14,17 @@ namespace LuckyDrawDomain
         public string Mark { get; set; }
 
         public int Order { get; set; }
+
+        public Employee(int id, string name, string mark, int order)
+        {
+            Id = id;
+            Name = name;
+            Mark = mark;
+            Order = order;
+        }
+
+        public Employee()
+        {
+        }
     }
 }

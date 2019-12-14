@@ -10,5 +10,9 @@ namespace LuckyDrawDao
     public interface IEmployeeDao
     {
         List<Employee> FindAll();
+
+        void Add(Employee emp);
+
+        void Clear();
     }
 }

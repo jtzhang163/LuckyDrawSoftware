@@ -30,21 +30,22 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <!--<Grid.Background>
-            <ImageBrush ImageSource="./img/bgimg.png" Stretch="UniformToFill"/>
-        </Grid.Background>-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="150"/>
+        </Grid.ColumnDefinitions>
         <TabControl x:Name="tabControl" BorderThickness="0"  SelectionChanged="tabControl_SelectionChanged">
-            <TabItem Header="员工管理" Height="30"  Width="100">
-
-            </TabItem>
-
-            <TabItem Header="活动管理" Height="30"  Width="100">
-
-            </TabItem>
-
             <TabItem Header="系统设置" Height="30"  Width="100">
             </TabItem>
 
+            <TabItem Header="人员管理" Height="30"  Width="100">
+            </TabItem>
+
+            <TabItem Header="奖品管理" Height="30"  Width="100">
+            </TabItem>
         </TabControl>
+
+        <Button x:Name="btnCloseAndOpenMainWindow" Grid.Column="1" Width="120" Height="40"
+                Content="设置完成，开始抽奖" Click="BtnCloseAndOpenMainWindow_Click"/>
     </Grid>
 </Window>

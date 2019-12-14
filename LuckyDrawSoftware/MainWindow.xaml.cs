@@ -31,6 +31,10 @@ namespace LuckyDrawSoftware
         {
             InitializeComponent();
 
+            //添加在在主窗体构造函数内
+            //this.MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
+            //this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
+
             Init();
         }
 
@@ -52,7 +56,6 @@ namespace LuckyDrawSoftware
             Context.Init();
 
             //绑定事件
-            this.MouseRightButtonDown += RightMouseDown;
             this.KeyUp += KeyEvent;
             this.MouseDoubleClick += MouseDbClick;
 
@@ -136,6 +139,8 @@ namespace LuckyDrawSoftware
             var awards = awardService.FindAll();
             var emps = employeeService.FindAll();
             var awardEmps = awardEmpService.FindAll();
+
+
 
             this.Dispatcher.Invoke(()=> {
 
@@ -330,7 +335,7 @@ namespace LuckyDrawSoftware
                 while (awardIndex < awards.Count);
 
                 ShowFinalList();
-
+                runStatus = 5;
             });
 
             thread.Start();
@@ -393,11 +398,6 @@ namespace LuckyDrawSoftware
         private void MouseDbClick(object sender, MouseButtonEventArgs e)
         {
             Start();
-        }
-
-        public void RightMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            new SettingWindow().ShowDialog();
         }
 
         private void CloseMouseDown(object sender, MouseButtonEventArgs e)

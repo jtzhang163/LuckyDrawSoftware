@@ -10,5 +10,9 @@ namespace LuckyDrawDao
     public interface IAwardDao
     {
         List<Award> FindAll();
+
+        void Add(Award award);
+
+        void Clear();
     }
 }

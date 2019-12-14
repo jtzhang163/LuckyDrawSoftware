@@ -10,5 +10,11 @@ namespace LuckyDrawService
     public interface IAwardService
     {
         List<Award> FindAll();
+
+        void Add(Award award);
+
+        void Add(List<Award> awards);
+
+        void Clear();
     }
 }
