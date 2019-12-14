@@ -19,5 +19,14 @@ namespace LuckyDrawDao
                 return output.Where(o => !string.IsNullOrEmpty(o.Name)).ToList();
             }
         }
+
+        public void Clear()
+        {
+            using (IDbConnection cnn = new SQLiteConnection(Helper.ConnectionString))
+            {
+                cnn.Execute("DELETE FROM t_employee", new DynamicParameters());
+                cnn.Execute("UPDATE sqlite_sequence SET seq = 0 WHERE name = 't_employee'", new DynamicParameters());
+            }
+        }
     }
 }

@@ -150,6 +150,7 @@
     <Content Include="html\js\npm.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="img\bgimg.png" />
     <Content Include="video\bgvideo.mp4">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

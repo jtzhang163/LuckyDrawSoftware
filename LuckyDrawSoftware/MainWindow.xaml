@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LuckyDrawSoftware" WindowStyle="None"
         mc:Ignorable="d" Icon="draw.ico" WindowState="Maximized"
-        Title="MainWindow" Height="450" Width="800">
+        Title="LuckyDrawSoftware" Height="450" Width="800">
     <Window.Resources>
         <Style TargetType="TextBox">
             <Setter Property="FontFamily" Value="华文新魏"/>

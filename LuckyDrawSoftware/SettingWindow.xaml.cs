@@ -1,4 +1,5 @@
 ﻿using LuckyDrawService;
+using LuckyDrawSoftware.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,17 @@ namespace LuckyDrawSoftware
         public SettingWindow()
         {
             InitializeComponent();
+        }
+
+        private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedTab = this.tabControl.SelectedItem as TabItem;
+            var g = new Grid();
+            if (selectedTab.Header.ToString() == "系统设置")
+            {
+                g.Children.Add(new SysSettingView());
+            }
+            selectedTab.Content = g;
         }
     }
 }

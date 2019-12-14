@@ -17,5 +17,25 @@ namespace LuckyDrawSoftware
                 this.SetProperty(ref appName, value);
             }
         }
+
+        private int pageShowCount;
+        public int PageShowCount
+        {
+            get { return pageShowCount; }
+            set
+            {
+                this.SetProperty(ref pageShowCount, value);
+            }
+        }
+
+        private bool isOneByOne;
+        public bool IsOneByOne
+        {
+            get { return isOneByOne; }
+            set
+            {
+                this.SetProperty(ref isOneByOne, value);
+            }
+        }
     }
 }

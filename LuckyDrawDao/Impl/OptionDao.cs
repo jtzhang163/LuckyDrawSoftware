@@ -33,7 +33,14 @@ namespace LuckyDrawDao
         {
             using (IDbConnection cnn = new SQLiteConnection(Helper.ConnectionString))
             {
-                cnn.Execute("update t_option set value = @Value where key = @Key", new { Value = value, Key = key });
+                try
+                {
+                    var i = cnn.Execute("update t_option set value = @Value where key = @Key", new { Value = value, Key = key });
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
             }
         }
     }

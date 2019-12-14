@@ -17,6 +17,16 @@ namespace LuckyDrawDao
             {
                 var output = cnn.Query<Award>("select * from t_award", new DynamicParameters());
                 return output.ToList();
+                //return output.Where(o => o.Order < 2).ToList();
+            }
+        }
+
+        public void Clear()
+        {
+            using (IDbConnection cnn = new SQLiteConnection(Helper.ConnectionString))
+            {
+                cnn.Execute("DELETE FROM t_award", new DynamicParameters());
+                cnn.Execute("UPDATE sqlite_sequence SET seq = 0 WHERE name = 't_award'", new DynamicParameters());
             }
         }
     }

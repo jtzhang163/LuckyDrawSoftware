@@ -13,25 +13,11 @@ namespace LuckyDrawSoftware
     {
         public static void Init()
         {
-            employees = new EmployeeService().FindAll();
-
-            new AwardService().FindAll().ForEach(o=> {
-                awards.Add(new AwardViewModel()
-                {
-                    Id = o.Id,
-                    Name = o.Name,
-                    Mark = o.Mark,
-                    Number = o.Number
-                });
-            });
-
-            setting.AppName = new OptionService().FindAll().FirstOrDefault(o => o.Key == "APP_NAME")?.Value;
+            var options = new OptionService().FindAll();
+            setting.AppName = options.FirstOrDefault(o => o.Key == "APP_NAME")?.Value;
+            setting.PageShowCount = Convert.ToInt32(options.FirstOrDefault(o => o.Key == "PAGE_SHOW_COUNT")?.Value);
+            setting.IsOneByOne = options.FirstOrDefault(o => o.Key == "IS_ONE_BY_ONE")?.Value == "是" ? true : false;
         }
-
-
-        public static List<Employee> employees;
-
-        public static List<AwardViewModel> awards = new List<AwardViewModel>();
 
         public static SettingViewModel setting = new SettingViewModel();
     }

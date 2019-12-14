@@ -6,23 +6,36 @@
         xmlns:view="clr-namespace:LuckyDrawSoftware.View"
         xmlns:local="clr-namespace:LuckyDrawSoftware" WindowStartupLocation="CenterScreen"
         mc:Ignorable="d" Icon="draw.ico"
-        Title="" Height="450" Width="800">
+        Title="LuckyDrawSoftware设置" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="TabItem">
+            <Style.Triggers>
+                <Trigger Property="TabItem.IsSelected" Value="True">
+                    <!--<Setter Property="TabItem.Background" Value="Green"/>-->
+                    <Setter Property="TabItem.FontWeight" Value="Bold"/>
+                    <!--<Setter Property="TabItem.Foreground" Value="Red"/>-->
+                </Trigger>
+                <Trigger Property="TabItem.IsSelected" Value="False">
+                    <!--<Setter Property="TabItem.Background" Value="Red"/>-->
+                    <Setter Property="TabItem.FontWeight" Value="Normal"/>
+                    <!--<Setter Property="TabItem.Foreground" Value="Red"/>-->
+                </Trigger>
+                <!--<Trigger Property="TabItem.IsMouseOver" Value="True">
+                    <Setter Property="TabItem.Background" Value="Gray"/>
+                </Trigger>
+                <Trigger Property="TabItem.IsFocused" Value="True">
+                    <Setter Property="TabItem.Background" Value="Gray"/>
+                </Trigger>-->
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
-        <TabControl x:Name="tabControl"  Foreground="Black" Background="#FFECF0F5" BorderBrush="Transparent" BorderThickness="0">
+        <!--<Grid.Background>
+            <ImageBrush ImageSource="./img/bgimg.png" Stretch="UniformToFill"/>
+        </Grid.Background>-->
+        <TabControl x:Name="tabControl" BorderThickness="0"  SelectionChanged="tabControl_SelectionChanged">
             <TabItem Header="员工管理" Height="30"  Width="100">
-                <Grid>
-                    <TextBlock Text="I am Aomi" Width="75" Height="20">
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Foreground" Value="Red" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </Grid>
+
             </TabItem>
 
             <TabItem Header="活动管理" Height="30"  Width="100">
@@ -30,9 +43,6 @@
             </TabItem>
 
             <TabItem Header="系统设置" Height="30"  Width="100">
-                <Grid>
-                    <view:SysSettingView/>
-                </Grid>
             </TabItem>
 
         </TabControl>

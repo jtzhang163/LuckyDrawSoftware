@@ -2,6 +2,7 @@
 using LuckyDrawService;
 using LuckyDrawSoftware.json;
 using LuckyDrawSoftware.UC;
+using LuckyDrawSoftware.ViewModel;
 using LuckyDrawUtil;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,6 @@ namespace LuckyDrawSoftware
             InitializeComponent();
 
             Init();
-
         }
 
         private List<EmployeeUC> EmpUCs = new List<EmployeeUC>();
@@ -108,11 +108,13 @@ namespace LuckyDrawSoftware
         /// </summary>
         private void ShowOpening()
         {
+            var awards = awardService.FindAll();
+
             this.tbAwardTip.Text = "奖品如下";
-            SetGrid(Context.awards.Count, 1, Context.awards.Count, false);
+            SetGrid(awards.Count, 1, awards.Count, false);
             for (int i = 0; i < this.EmpUCs.Count; i++)
             {
-                var award = Context.awards[i];
+                var award = awards[i];
                 this.EmpUCs[i].Update(new Employee()
                 {
                     Mark = award.Mark,
@@ -138,8 +140,8 @@ namespace LuckyDrawSoftware
             this.Dispatcher.Invoke(()=> {
 
                 this.player.Volume = 1;
-                this.tbAward.Text = "抽奖结束 名单如下";
-                this.tbAwardTip.Text = string.Format("共{0}人", awardEmps.Count);
+                this.tbAward.Text = "抽奖结束";
+                this.tbAwardTip.Text = string.Format("共{0}人，详细名单按 Ctrl+F 查看", awardEmps.Count);
                 ResetGrid();
 
                 this.emp_grid.RowDefinitions.Add(new RowDefinition());
@@ -184,15 +186,6 @@ namespace LuckyDrawSoftware
             });
         }
 
-
-        /// <summary>
-        /// 显示奖项标题
-        /// </summary>
-        private void ShowAwardTitle()
-        {
-
-        }
-
         private void ResetGrid()
         {
             this.emp_grid.Children.Clear();
@@ -210,6 +203,12 @@ namespace LuckyDrawSoftware
 
         private void Run()
         {
+            var awards = awardService.FindAll();
+            var emps = employeeService.FindAll();
+            var awardEmps = awardEmpService.FindAll();
+
+            var showCount = Context.setting.PageShowCount;
+
             thread = new Thread(() =>
             {
                 //开场白
@@ -220,18 +219,18 @@ namespace LuckyDrawSoftware
 
                 awardEmpService.Clear();
                 var awardIndex = 0;
-                var employees = Context.employees;
+                var employees = employeeService.FindAll();
                 do
                 {
-                    var award = Context.awards[awardIndex];
+                    var award = new AwardViewModel(awards[awardIndex]);
 
-                    while (award.CurrentCycle * 10 < award.Number)
+                    while (award.CurrentCycle * showCount < award.Number)
                     {
 
                         award.CurrentCycle++;
-                        var gridCount = 10;
-                        var tmpGridCount = award.Number - (award.CurrentCycle - 1) * 10;
-                        if (tmpGridCount < 10)
+                        var gridCount = showCount;
+                        var tmpGridCount = award.Number - (award.CurrentCycle - 1) * showCount;
+                        if (tmpGridCount < showCount)
                         {
                             gridCount = tmpGridCount;
                         }
@@ -240,13 +239,16 @@ namespace LuckyDrawSoftware
                         {
                             this.player.Volume = 0;
                             this.tbAward.Text = string.Format("{0}      {1}", award.Mark, award.Name);
-                            if (award.Number <= 10)
+                            if (award.Number <= showCount)
                             {
                                 this.tbAwardTip.Text = string.Format("({0}/{0})", award.Number);
                             }
                             else
                             {
-                                this.tbAwardTip.Text = string.Format("第{0}轮({1}~{2}/{3})", award.CurrentCycle, (award.CurrentCycle - 1) * 10 + 1, (award.CurrentCycle - 1) * 10 + gridCount, award.Number);
+                                this.tbAwardTip.Text = string.Format("第{0}轮({1}~{2}/{3})", 
+                                    award.CurrentCycle, 
+                                    (award.CurrentCycle - 1) * showCount + 1, 
+                                    (award.CurrentCycle - 1) * showCount + gridCount, award.Number);
                             }
 
                             if (gridCount > 3)
@@ -262,7 +264,7 @@ namespace LuckyDrawSoftware
 
                         for (var i = 0; i < gridCount; i++)
                         {
-                            RemainTimes[i] = i * 10 + 1;
+                            RemainTimes[i] = Context.setting.IsOneByOne ? (i * showCount + 1) : 1;
                             this.EmpUCs[i].Update(new Employee());
                         }
                         ready_sp.Play();
@@ -325,7 +327,7 @@ namespace LuckyDrawSoftware
 
                     awardIndex++;
                 }
-                while (awardIndex < Context.awards.Count);
+                while (awardIndex < awards.Count);
 
                 ShowFinalList();
 
@@ -344,8 +346,12 @@ namespace LuckyDrawSoftware
         {
             if (e.Key == Key.Space)
             {
-                Console.WriteLine("空格");
                 Start();
+            }
+            else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.F)
+            {
+                System.Diagnostics.Process.Start(AppDomain.CurrentDomain.BaseDirectory + "html\\获奖名单.html");
+                Console.WriteLine("show 获奖名单");
             }
         }
 
@@ -391,8 +397,7 @@ namespace LuckyDrawSoftware
 
         public void RightMouseDown(object sender, MouseButtonEventArgs e)
         {
-            //new SettingWindow().ShowDialog();
-            System.Diagnostics.Process.Start(AppDomain.CurrentDomain.BaseDirectory + "html\\获奖名单.html");
+            new SettingWindow().ShowDialog();
         }
 
         private void CloseMouseDown(object sender, MouseButtonEventArgs e)

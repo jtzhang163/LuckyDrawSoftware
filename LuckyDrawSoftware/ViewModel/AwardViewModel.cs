@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LuckyDrawDomain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,6 +52,14 @@ namespace LuckyDrawSoftware.ViewModel
         }
 
         public int CurrentCycle { get; set; }
+
+        public AwardViewModel(Award award)
+        {
+            this.Id = award.Id;
+            this.Name = award.Name;
+            this.Mark = award.Mark;
+            this.Number = award.Number;
+        }
 
         public AwardViewModel(string name, string mark)
         {
