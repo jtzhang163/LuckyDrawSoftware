@@ -1,7 +1,9 @@
 # LuckyDrawSoftware
 年会抽奖助手（WPF）
 
-### 效果预览
+### 效果预览（图片）
+
+### 效果预览（视频）
 https://weibo.com/tv/v/IkMFgAJOD
 
 ### 概述
