@@ -5,7 +5,7 @@
 ![Image text](https://wx2.sinaimg.cn/mw1024/c2e05771gy1g9xoymdjkjj211y0lckjl.jpg)
 
 ### 效果预览（视频）
-<a href="https://weibo.com/tv/v/IkMFgAJOD" target="_blank">https://weibo.com/tv/v/IkMFgAJOD
+https://weibo.com/tv/v/IkMFgAJOD
 
 ### 概述
 1. 该软件为WPF框架，需.NET Framework 4.5及以上版本支持  
