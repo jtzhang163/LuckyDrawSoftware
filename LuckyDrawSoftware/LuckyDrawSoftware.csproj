@@ -134,6 +134,7 @@
     <Content Include="audio\ready.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="使用说明.pdf" />
     <Resource Include="draw.ico" />
     <Content Include="html\css\bootstrap-theme.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -75,7 +75,7 @@
             </TabItem>
         </TabControl>
 
-        <Button x:Name="btnCloseAndOpenMainWindow" Grid.Column="1" Width="120" Height="40" Background="Blue"
-                Content="设置完成，开始抽奖" Click="BtnCloseAndOpenMainWindow_Click"/>
+        <Button x:Name="btnCloseAndOpenMainWindow" Grid.Column="1" Width="100" Height="40" Background="Blue"
+                Content="开始抽奖" FontWeight="Bold" Click="BtnCloseAndOpenMainWindow_Click"/>
     </Grid>
 </Window>

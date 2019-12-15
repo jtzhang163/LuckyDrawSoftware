@@ -37,5 +37,15 @@ namespace LuckyDrawSoftware
                 this.SetProperty(ref isOneByOne, value);
             }
         }
+
+        private int refreshInterval;
+        public int RefreshInterval
+        {
+            get { return refreshInterval; }
+            set
+            {
+                this.SetProperty(ref refreshInterval, value);
+            }
+        }
     }
 }

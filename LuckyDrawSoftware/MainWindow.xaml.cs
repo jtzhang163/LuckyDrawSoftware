@@ -304,7 +304,8 @@ namespace LuckyDrawSoftware
                                         }
                                     }
                                 }
-                                Thread.Sleep(30);
+
+                                Thread.Sleep(Context.setting.RefreshInterval);
                             }
                             isFrushing = false;
                         });

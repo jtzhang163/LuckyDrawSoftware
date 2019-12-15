@@ -17,6 +17,7 @@ namespace LuckyDrawSoftware
             setting.AppName = options.FirstOrDefault(o => o.Key == "APP_NAME")?.Value;
             setting.PageShowCount = Convert.ToInt32(options.FirstOrDefault(o => o.Key == "PAGE_SHOW_COUNT")?.Value);
             setting.IsOneByOne = options.FirstOrDefault(o => o.Key == "IS_ONE_BY_ONE")?.Value == "是" ? true : false;
+            setting.RefreshInterval = Convert.ToInt32(options.FirstOrDefault(o => o.Key == "REFRESH_INTERVAL")?.Value);
         }
 
         public static SettingViewModel setting = new SettingViewModel();

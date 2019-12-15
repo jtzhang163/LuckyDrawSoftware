@@ -33,6 +33,7 @@ namespace LuckyDrawSoftware.View
             this.tbAppName.Text = Context.setting.AppName;
             this.tbPageShowCount.Text = Context.setting.PageShowCount.ToString();
             this.tbIsOneByOne.Text = Context.setting.IsOneByOne ? "是" : "否";
+            this.tbRefreshInterval.Text = Context.setting.RefreshInterval.ToString();
 
             this.btnSave.Content = "修改";
         }
@@ -44,6 +45,7 @@ namespace LuckyDrawSoftware.View
                 this.tbAppName.IsEnabled = true;
                 this.tbPageShowCount.IsEnabled = true;
                 this.tbIsOneByOne.IsEnabled = true;
+                this.tbRefreshInterval.IsEnabled = true;
                 this.isEdit = true;
                 this.btnSave.Content = "保存";
                 return;
@@ -54,6 +56,7 @@ namespace LuckyDrawSoftware.View
                 MessageBox.Show("【每页显示个数】输入格式有误！", "错误提示", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
+
             var tbIsOneByOneText = this.tbIsOneByOne.Text.Trim();
             if (tbIsOneByOneText != "是" && tbIsOneByOneText != "否")
             {
@@ -61,11 +64,16 @@ namespace LuckyDrawSoftware.View
                 return;
             }
 
+            if (!int.TryParse(this.tbRefreshInterval.Text.Trim(), out int refreshInterval))
+            {
+                MessageBox.Show("【刷新时间(毫秒)】输入格式有误！", "错误提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             var appName = this.tbAppName.Text.Trim();
             Context.setting.AppName = appName;
             service.Set("APP_NAME", appName);
             this.tbAppName.IsEnabled = false;
-
 
             Context.setting.PageShowCount = pageShowCount;
             service.Set("PAGE_SHOW_COUNT", pageShowCount.ToString());
@@ -75,6 +83,10 @@ namespace LuckyDrawSoftware.View
             Context.setting.IsOneByOne = isOneByOne;
             service.Set("IS_ONE_BY_ONE", tbIsOneByOneText);
             this.tbIsOneByOne.IsEnabled = false;
+
+            Context.setting.RefreshInterval = refreshInterval;
+            service.Set("REFRESH_INTERVAL", refreshInterval.ToString());
+            this.tbRefreshInterval.IsEnabled = false;
 
             this.isEdit = false;
             this.btnSave.Content = "修改";

@@ -38,15 +38,18 @@
             <RowDefinition Height="2*"/>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="1" Grid.Column="0" Text="系统名称："/>
-        <TextBox Grid.Row="1" Grid.Column="1" x:Name="tbAppName" Text="抽奖工具"/>
+        <TextBox Grid.Row="1" Grid.Column="1" x:Name="tbAppName" Text=""/>
         <TextBlock Grid.Row="2" Grid.Column="0" Text="每页显示个数："/>
-        <TextBox Grid.Row="2" Grid.Column="1" x:Name="tbPageShowCount" Text="10"/>
+        <TextBox Grid.Row="2" Grid.Column="1" x:Name="tbPageShowCount" Text=""/>
         <TextBlock Grid.Row="3" Grid.Column="0" Text="是否逐一产生："/>
-        <TextBox Grid.Row="3" Grid.Column="1" x:Name="tbIsOneByOne" Text="是"/>
+        <TextBox Grid.Row="3" Grid.Column="1" x:Name="tbIsOneByOne" Text=""/>
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="刷新时间(毫秒)："/>
+        <TextBox Grid.Row="4" Grid.Column="1" x:Name="tbRefreshInterval" Text=""/>
 
-        <Button Grid.Row="4" Grid.Column="1" x:Name="btnSave" Height="30" Width="60" HorizontalAlignment="Left" 
+        <Button Grid.Row="5" Grid.Column="1" x:Name="btnSave" Height="30" Width="60" HorizontalAlignment="Left" 
                 VerticalAlignment="Top" Click="Save_Click">确认</Button>
     </Grid>
 </UserControl>
