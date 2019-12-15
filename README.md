@@ -1,4 +1,4 @@
-# LuckyDrawSoftware
+## LuckyDrawSoftware
 年会抽奖助手（WPF）
 
 ### 效果预览（图片）
