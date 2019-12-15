@@ -2,7 +2,8 @@
 年会抽奖助手（WPF）
 
 ### 效果预览（图片）
-https://wx3.sinaimg.cn/mw1024/c2e05771gy1g9xo8tmez7j211y0lckjl.jpg
+![Image text](https://wx3.sinaimg.cn/mw1024/c2e05771gy1g9xo8tmez7j211y0lckjl.jpg)
+
 ### 效果预览（视频）
 https://weibo.com/tv/v/IkMFgAJOD
 
