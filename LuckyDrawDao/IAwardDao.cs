@@ -13,6 +13,8 @@ namespace LuckyDrawDao
 
         void Add(Award award);
 
+        void Add(List<Award> awards);
+
         void Clear();
     }
 }

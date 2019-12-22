@@ -22,7 +22,7 @@ namespace LuckyDrawService
 
         public void Add(List<Employee> emps)
         {
-            emps.ForEach(o => Add(o));
+            dao.Add(emps);
         }
 
         public void Clear()

@@ -23,7 +23,7 @@ namespace LuckyDrawService
 
         public void Add(List<Award> awards)
         {
-            awards.ForEach(o=> Add(o));
+            dao.Add(awards);
         }
 
         public void Clear()

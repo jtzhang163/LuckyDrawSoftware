@@ -13,6 +13,8 @@ namespace LuckyDrawDao
 
         void Add(Employee emp);
 
+        void Add(List<Employee> emps);
+
         void Clear();
     }
 }

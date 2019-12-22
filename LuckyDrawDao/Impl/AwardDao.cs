@@ -32,9 +32,26 @@ namespace LuckyDrawDao
 
         public void Add(Award award)
         {
+            Add(new List<Award> { award });
+        }
+
+        public void Add(List<Award> awards)
+        {
+            if (awards == null || awards.Count == 0)
+            {
+                return;
+            }
+
+            StringBuilder sb = new StringBuilder("insert into t_award (id, name, mark, number, 'order') values ");
+            awards.ForEach(o =>
+            {
+                sb.Append(string.Format("(null, '{0}', '{1}', '{2}', '{3}'),", o.Name, o.Mark, o.Number, o.Order));
+            });
+            string sql = sb.ToString().TrimEnd(',');
+
             using (IDbConnection cnn = new SQLiteConnection(Helper.ConnectionString))
             {
-                cnn.Execute("insert into t_award (id, name, mark, number, 'order') values (null, @Name, @Mark, @Number, @Order)", award);
+                cnn.Execute(sql, null);
             }
         }
     }

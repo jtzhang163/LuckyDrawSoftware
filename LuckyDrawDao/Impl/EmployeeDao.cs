@@ -31,9 +31,26 @@ namespace LuckyDrawDao
 
         public void Add(Employee emp)
         {
+            Add(new List<Employee> { emp });
+        }
+
+        public void Add(List<Employee> emps)
+        {
+            if (emps == null || emps.Count == 0)
+            {
+                return;
+            }
+
+            StringBuilder sb = new StringBuilder("insert into t_employee (id, name, mark, 'order') values ");
+            emps.ForEach(o =>
+            {
+                sb.Append(string.Format("(null, '{0}', '{1}', '{2}'),", o.Name, o.Mark, o.Order));
+            });
+            string sql = sb.ToString().TrimEnd(',');
+
             using (IDbConnection cnn = new SQLiteConnection(Helper.ConnectionString))
             {
-                cnn.Execute("insert into t_employee (id, name, mark, 'order') values (null, @Name, @Mark, @Order)", emp);
+                cnn.Execute(sql, null);
             }
         }
     }
