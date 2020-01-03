@@ -27,25 +27,31 @@ namespace LuckyDrawSoftware
     /// </summary>
     public partial class MainWindow : Window
     {
-        //private Logger logger = Logger.Default;
-
-        public MainWindow()
-        {
-            InitializeComponent();
-            Init();
-        }
-
-        private List<EmployeeUC> EmpUCs = new List<EmployeeUC>();
-
-        private List<int> RemainTimes = new List<int>();
-
-        private Random random = new Random();
+        private Logger logger = Logger.Default;
+        private SoundPlayer going_sp = new SoundPlayer("./audio/going.wav");
+        private SoundPlayer finished_sp = new SoundPlayer("./audio/finished.wav");
+        private SoundPlayer ready_sp = new SoundPlayer("./audio/ready.wav");
 
         private IAwardEmpService awardEmpService = new AwardEmpService();
         private IAwardService awardService = new AwardService();
         private IEmployeeService employeeService = new EmployeeService();
 
+        private List<EmployeeUC> EmpUCs = new List<EmployeeUC>();
+        private List<int> RemainTimes = new List<int>();
+        private Random random = new Random();
         private bool isRunning;
+        private EventWaitHandle wait = new AutoResetEvent(false);
+        private int runStatus = -1;
+        private bool isFrushing;
+        private Thread thread;
+
+
+        #region 初始化
+        public MainWindow()
+        {
+            InitializeComponent();
+            Init();
+        }
 
         private void Init()
         {
@@ -58,147 +64,12 @@ namespace LuckyDrawSoftware
 
             this.isRunning = true;
             this.player.Play();
+            logger.Info("启动程序...");
         }
 
-        /// <summary>
-        /// 设置 Grid 
-        /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="cols"></param>
-        /// <param name="count"></param>
-        /// <param name="isEmp"></param>
-        private void SetGrid(int rows, int cols, int count, bool isEmp)
-        {
-            ResetGrid();
-            for (int i = 0; i < rows; i++)
-            {
-                this.emp_grid.RowDefinitions.Add(new RowDefinition());
-            }
+        #endregion
 
-            for (int i = 0; i < cols; i++)
-            {
-                this.emp_grid.ColumnDefinitions.Add(new ColumnDefinition());
-            }
-
-            for (int i = 0; i < count; i++)
-            {
-                var empUC = isEmp ? new EmployeeUC() : new EmployeeUC(2, 3);
-                this.EmpUCs.Add(empUC);
-                this.RemainTimes.Add(0);
-            }
-
-            int index = 0;
-
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    if (index < this.EmpUCs.Count)
-                    {
-                        this.emp_grid.Children.Add(this.EmpUCs[index]);
-                        Grid.SetRow(this.EmpUCs[index], i);
-                        Grid.SetColumn(this.EmpUCs[index], j);
-                        index++;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 显示开场白
-        /// </summary>
-        private void ShowOpening(List<Award> awards)
-        {
-            this.tbAwardTip.Text = "奖品如下";
-            SetGrid(awards.Count, 1, awards.Count, false);
-            for (int i = 0; i < this.EmpUCs.Count; i++)
-            {
-                var award = awards[i];
-                this.EmpUCs[i].Update(new Employee()
-                {
-                    Mark = award.Mark,
-                    Name = string.Format("{0}({1}个)", award.Name, award.Number),
-                });
-            }
-        }
-
-
-        /// <summary>
-        /// 设置 Grid 
-        /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="cols"></param>
-        /// <param name="count"></param>
-        /// <param name="isEmp"></param>
-        private void ShowFinalList()
-        {
-            var awards = awardService.FindAll();
-            var emps = employeeService.FindAll();
-            var awardEmps = awardEmpService.FindAll();
-
-            this.Dispatcher.Invoke(()=> {
-
-                this.player.Volume = 1;
-                this.tbAward.Text = "抽奖结束";
-                this.tbAwardTip.Text = string.Format("共{0}人，详细名单按 Ctrl+F 查看", awardEmps.Count);
-                ResetGrid();
-
-                this.emp_grid.RowDefinitions.Add(new RowDefinition());
-                this.emp_grid.ColumnDefinitions.Add(new ColumnDefinition());
-
-                List<AwardJson> awardJsons = new List<AwardJson>();
-
-                for (var i = 0; i < awards.Count; i++)
-                {
-                    var award = awards[i];
-                    var awardJson = new AwardJson();
-                    
-                    var currentAwardEmps = awardEmps.Where(o => o.AwardId == award.Id).ToList();
-                    awardJson.name = award.Name;
-                    awardJson.mark = award.Mark;
-                    awardJson.number = currentAwardEmps.Count;
-
-
-                    List<EmpJson> empJsons = new List<EmpJson>();
-                    for (var j = 0; j < currentAwardEmps.Count; j++)
-                    {
-                        var awardEmp = currentAwardEmps[j];
-                        var emp = emps.FirstOrDefault(o => o.Id == awardEmp.EmpId);
-                        if (emp != null)
-                        {
-                            var empJson = new EmpJson();
-                            empJson.name = emp.Name;
-                            empJson.mark = emp.Mark;
-                            empJsons.Add(empJson);
-                        }
-                    }
-
-                    awardJson.emps = empJsons;
-                    awardJsons.Add(awardJson);
-                }
-
-                var json = JsonHelper.Serialize<AwardJson>(awardJsons);
-
-                json = json.Replace('"','\'');
-
-                WriteHtmlUtil.Write(json);
-            });
-        }
-
-        private void ResetGrid()
-        {
-            this.emp_grid.Children.Clear();
-            this.emp_grid.RowDefinitions.Clear();
-            this.emp_grid.ColumnDefinitions.Clear();
-            this.EmpUCs.Clear();
-            this.RemainTimes.Clear();
-        }
-
-        EventWaitHandle wait = new AutoResetEvent(false);
-
-        int runStatus = -1;
-
-        Thread thread;
+        #region 主流程执行方法
 
         private void Run()
         {
@@ -242,9 +113,9 @@ namespace LuckyDrawSoftware
                             }
                             else
                             {
-                                this.tbAwardTip.Text = string.Format("第{0}轮({1}~{2}/{3})", 
-                                    award.CurrentCycle, 
-                                    (award.CurrentCycle - 1) * showCount + 1, 
+                                this.tbAwardTip.Text = string.Format("第{0}轮({1}~{2}/{3})",
+                                    award.CurrentCycle,
+                                    (award.CurrentCycle - 1) * showCount + 1,
                                     (award.CurrentCycle - 1) * showCount + gridCount, award.Number);
                             }
 
@@ -337,28 +208,139 @@ namespace LuckyDrawSoftware
             thread.Start();
         }
 
-
-        private SoundPlayer going_sp = new SoundPlayer("./audio/going.wav");
-        private SoundPlayer finished_sp = new SoundPlayer("./audio/finished.wav");
-        private SoundPlayer ready_sp = new SoundPlayer("./audio/ready.wav");
-
-
-        public void KeyEvent(object sender, KeyEventArgs e)
+        /// <summary>
+        /// 设置 Grid 
+        /// </summary>
+        private void SetGrid(int rows, int cols, int count, bool isEmp)
         {
-            if (e.Key == Key.Space)
+            ResetGrid();
+            for (int i = 0; i < rows; i++)
             {
-                Start();
+                this.emp_grid.RowDefinitions.Add(new RowDefinition());
             }
-            else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.F)
+
+            for (int i = 0; i < cols; i++)
             {
-                System.Diagnostics.Process.Start(AppDomain.CurrentDomain.BaseDirectory + "html\\获奖名单.html");
-                Console.WriteLine("show 获奖名单");
+                this.emp_grid.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                var empUC = isEmp ? new EmployeeUC() : new EmployeeUC(2, 3);
+                this.EmpUCs.Add(empUC);
+                this.RemainTimes.Add(0);
+            }
+
+            int index = 0;
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    if (index < this.EmpUCs.Count)
+                    {
+                        this.emp_grid.Children.Add(this.EmpUCs[index]);
+                        Grid.SetRow(this.EmpUCs[index], i);
+                        Grid.SetColumn(this.EmpUCs[index], j);
+                        index++;
+                    }
+                }
             }
         }
 
+        /// <summary>
+        /// 将Grid清空复原
+        /// </summary>
+        private void ResetGrid()
+        {
+            this.emp_grid.Children.Clear();
+            this.emp_grid.RowDefinitions.Clear();
+            this.emp_grid.ColumnDefinitions.Clear();
+            this.EmpUCs.Clear();
+            this.RemainTimes.Clear();
+        }
+
+        /// <summary>
+        /// 显示开场白
+        /// </summary>
+        private void ShowOpening(List<Award> awards)
+        {
+            this.tbAwardTip.Text = "奖品如下";
+            SetGrid(awards.Count, 1, awards.Count, false);
+            for (int i = 0; i < this.EmpUCs.Count; i++)
+            {
+                var award = awards[i];
+                this.EmpUCs[i].Update(new Employee()
+                {
+                    Mark = award.Mark,
+                    Name = string.Format("{0}({1}个)", award.Name, award.Number),
+                });
+            }
+        }
+
+        /// <summary>
+        /// 显示获奖名单
+        /// </summary>
+        private void ShowFinalList()
+        {
+            var awards = awardService.FindAll();
+            var emps = employeeService.FindAll();
+            var awardEmps = awardEmpService.FindAll();
+
+            this.Dispatcher.Invoke(() => {
+
+                this.player.Volume = 1;
+                this.tbAward.Text = "抽奖结束";
+                this.tbAwardTip.Text = string.Format("共{0}人，详细名单按 Ctrl+F 查看", awardEmps.Count);
+                ResetGrid();
+
+                this.emp_grid.RowDefinitions.Add(new RowDefinition());
+                this.emp_grid.ColumnDefinitions.Add(new ColumnDefinition());
+
+                List<AwardJson> awardJsons = new List<AwardJson>();
+
+                for (var i = 0; i < awards.Count; i++)
+                {
+                    var award = awards[i];
+                    var awardJson = new AwardJson();
+
+                    var currentAwardEmps = awardEmps.Where(o => o.AwardId == award.Id).ToList();
+                    awardJson.name = award.Name;
+                    awardJson.mark = award.Mark;
+                    awardJson.number = currentAwardEmps.Count;
+
+
+                    List<EmpJson> empJsons = new List<EmpJson>();
+                    for (var j = 0; j < currentAwardEmps.Count; j++)
+                    {
+                        var awardEmp = currentAwardEmps[j];
+                        var emp = emps.FirstOrDefault(o => o.Id == awardEmp.EmpId);
+                        if (emp != null)
+                        {
+                            var empJson = new EmpJson();
+                            empJson.name = emp.Name;
+                            empJson.mark = emp.Mark;
+                            empJsons.Add(empJson);
+                        }
+                    }
+
+                    awardJson.emps = empJsons;
+                    awardJsons.Add(awardJson);
+                }
+
+                var json = JsonHelper.Serialize<AwardJson>(awardJsons);
+
+                json = json.Replace('"', '\'');
+
+                WriteHtmlUtil.Write(json);
+            });
+        }
+
+        #endregion
+
+        #region 流程步骤跳转控制方法
 
         private bool canStart = true;
-        private bool isFrushing = false;
 
         private void Start()
         {
@@ -391,11 +373,31 @@ namespace LuckyDrawSoftware
             }).Start();
         }
 
+        public void KeyEvent(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                Start();
+            }
+            else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.F)
+            {
+                System.Diagnostics.Process.Start(AppDomain.CurrentDomain.BaseDirectory + "html\\获奖名单.html");
+                Console.WriteLine("show 获奖名单");
+            }
+        }
+
         private void MouseDbClick(object sender, MouseButtonEventArgs e)
         {
             Start();
         }
 
+        #endregion
+
+        #region 其他
+
+        /// <summary>
+        /// 关闭程序
+        /// </summary>
         private void CloseMouseDown(object sender, MouseButtonEventArgs e)
         {
             this.isRunning = false;
@@ -407,15 +409,20 @@ namespace LuckyDrawSoftware
 
             Thread.Sleep(1000);
 
+            logger.Info("关闭程序...");
             this.Close();
             Application.Current.Shutdown(0);
         }
 
+        /// <summary>
+        /// 背景视频循环播放
+        /// </summary>
         private void player_MediaEnded(object sender, RoutedEventArgs e)
         {
-            //设置一下视频进度，确保从头开始播放
             this.player.Position = TimeSpan.Zero;
             this.player.Play();
         }
+
+        #endregion
     }
 }
