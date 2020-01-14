@@ -8,26 +8,6 @@
         mc:Ignorable="d" Icon="draw.ico"
         Title="LuckyDrawSoftware设置" Height="450" Width="800">
     <Window.Resources>
-        <Style TargetType="TabItem">
-            <Style.Triggers>
-                <Trigger Property="TabItem.IsSelected" Value="True">
-                    <Setter Property="TabItem.Background" Value="Green"/>
-                    <Setter Property="TabItem.FontWeight" Value="Bold"/>
-                    <Setter Property="TabItem.Foreground" Value="Red"/>
-                </Trigger>
-                <Trigger Property="TabItem.IsSelected" Value="False">
-                    <Setter Property="TabItem.Background" Value="Red"/>
-                    <Setter Property="TabItem.FontWeight" Value="Normal"/>
-                    <Setter Property="TabItem.Foreground" Value="White"/>
-                </Trigger>
-                <Trigger Property="TabItem.IsMouseOver" Value="True">
-                    <Setter Property="TabItem.Background" Value="Green"/>
-                </Trigger>
-                <Trigger Property="TabItem.IsFocused" Value="True">
-                    <Setter Property="TabItem.Background" Value="Green"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
         <!--圆角button-->
         <Style TargetType="{x:Type Button}">
             <Setter Property="Template">
@@ -63,19 +43,19 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="150"/>
         </Grid.ColumnDefinitions>
-        <TabControl x:Name="tabControl" BorderThickness="0"  SelectionChanged="tabControl_SelectionChanged" Background="Transparent">
-            
-            <TabItem Header="系统设置" Height="30"  Width="100">
+        <TabControl x:Name="tabControl" Style="{StaticResource TabControlWithUnderLineStyle}" BorderThickness="0"  SelectionChanged="tabControl_SelectionChanged" Background="Transparent">
+
+            <TabItem Style="{StaticResource TabItemExWithUnderLineStyle}" Header="系统设置" Height="40"  Width="100">
             </TabItem>
 
-            <TabItem Header="人员管理" Height="30"  Width="100">
+            <TabItem Style="{StaticResource TabItemExWithUnderLineStyle}" Header="人员管理" Height="40"  Width="100">
             </TabItem>
 
-            <TabItem Header="奖品管理" Height="30"  Width="100">
+            <TabItem Style="{StaticResource TabItemExWithUnderLineStyle}" Header="奖品管理" Height="40"  Width="100">
             </TabItem>
         </TabControl>
 
-        <Button x:Name="btnCloseAndOpenMainWindow" Grid.Column="1" Width="100" Height="40" Background="Blue"
+        <Button x:Name="btnCloseAndOpenMainWindow" Grid.Column="1" Width="120" Height="40" Background="Blue"
                 Content="开始抽奖" FontWeight="Bold" Click="BtnCloseAndOpenMainWindow_Click"/>
     </Grid>
 </Window>
