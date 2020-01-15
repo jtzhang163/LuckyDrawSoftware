@@ -276,6 +276,7 @@ namespace LuckyDrawSoftware
                     Name = string.Format("{0}({1}个)", award.Name, award.Number),
                 });
             }
+            this.tbOperationTip.Visibility = Visibility.Hidden;
         }
 
         /// <summary>

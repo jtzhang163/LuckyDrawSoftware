@@ -74,20 +74,11 @@
             <TextBlock x:Name="tbAwardTip" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text=""
                        Foreground="White" FontFamily="华文新魏" FontSize="40" TextAlignment="Center" VerticalAlignment="Center"/>
 
-            <!--<Border x:Name="border" Visibility="Hidden" Margin="200,20,200,20" ScrollViewer.VerticalScrollBarVisibility="Visible">
-                <TextBox x:Name="tbFinalList" TextWrapping="Wrap" Text="eeeeeeeeeeeee">
-
-                </TextBox>
-            </Border>-->
-
             <Grid x:Name="emp_grid" Grid.Row="2" Grid.ColumnSpan="2">
-                <!--<Border x:Name="border" Padding="200,20,200,20" ScrollViewer.VerticalScrollBarVisibility="Visible" BorderBrush="White" BorderThickness="3">
-                    <TextBox x:Name="tbFinalList" TextWrapping="Wrap" Text="eeeeeeeeeeeee" BorderThickness="0">
 
-                    </TextBox>
-                </Border>-->
             </Grid>
-
         </Grid>
+        
+        <TextBlock x:Name="tbOperationTip" Text="按键盘空格键或鼠标双击向下执行流程" FontSize="12" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontFamily="华文新魏"/>
     </Grid>
 </Window>
